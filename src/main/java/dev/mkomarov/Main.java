@@ -36,12 +36,10 @@ public class Main {
     public static final MouseController mouseController = new MouseControllerWayland();
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-//        browserController.launchBrowser();
-
-        TimeUnit.MILLISECONDS.sleep(2000);
-        keyboardController.keyClick("w");
-        keyboardController.printInstantly("https://rewards.bing.com/");
-        
+        browserController.launchBrowser();
+        browserController.navigateTo("https://rewards.bing.com/");
+        TimeUnit.MILLISECONDS.sleep(5000);
+        browserController.searchOnPage("Daily");
 
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        Robot robot1 = new Robot();

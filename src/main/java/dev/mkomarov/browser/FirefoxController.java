@@ -8,6 +8,7 @@ import dev.mkomarov.screen.Pixel;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static dev.mkomarov.robot.RobotController.*;
 import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
@@ -18,7 +19,7 @@ public class FirefoxController implements BrowserController {
     private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
 
-    private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(255, 150, 50);
+    private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(56,216,120);
 
     static {
         if (OS.contains("win")) {
@@ -42,49 +43,39 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void createNewTab() {
-        getRobot().keyPress(KeyEvent.VK_CONTROL);
-        getRobot().keyPress(KeyEvent.VK_T);
-        getRobot().keyRelease(KeyEvent.VK_T);
-        getRobot().keyRelease(KeyEvent.VK_CONTROL);
+        keyboardController.keyClick("ctrl+t");
     }
 
     @Override
     public void closeTab() {
-        getRobot().keyPress(KeyEvent.VK_CONTROL);
-        getRobot().keyPress(KeyEvent.VK_W);
-        getRobot().keyRelease(KeyEvent.VK_W);
-        getRobot().keyRelease(KeyEvent.VK_CONTROL);
+        keyboardController.keyClick("ctrl+w");
     }
 
     @Override
     public void navigateTo(String url) {
-        printWordInstantlyWithRobot(url);
+        keyboardController.printInstantly(url);
     }
 
     @Override
     public Pixel searchOnPage(String text) {
-        robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_F);
+        try {
+        keyboardController.keyClick("ctrl+f");
+            Thread.sleep(500);
 
-        robot.delay(150);
+            printWordWithRobot("daily");
+            Thread.sleep(300);
 
-        robot.keyRelease(KeyEvent.VK_F);
-        robot.keyRelease(KeyEvent.VK_CONTROL);
+            keyboardController.keyClick("enter");
 
-        robot.delay(500);
+            Thread.sleep(1000);
 
-        printWordWithRobot("daily");
-        robot.delay(300);
+            Pixel pixelFound = findPixel(SEARCH_SELECTION_COLOR, 52, 0);
 
-        robot.keyPress(KeyEvent.VK_ENTER);
-        robot.keyRelease(KeyEvent.VK_ENTER);
-
-        robot.delay(1000);
-
-        Pixel pixelFound = findPixel(SEARCH_SELECTION_COLOR, 52, 0);
-
-        if (pixelFound == null) throw new RuntimeException("Pixel not found");
-        return pixelFound;
+            if (pixelFound == null) throw new RuntimeException("Pixel not found");
+            return pixelFound;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
