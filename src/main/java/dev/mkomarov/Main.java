@@ -2,7 +2,11 @@ package dev.mkomarov;
 
 import dev.mkomarov.browser.BrowserController;
 import dev.mkomarov.browser.FirefoxController;
+import dev.mkomarov.keyboard.KeyboardController;
+import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.Direction;
+import dev.mkomarov.mouse.MouseController;
+import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
 
 import java.awt.*;
@@ -21,16 +25,24 @@ import static dev.mkomarov.screen.ScreenControllerRobot.*;
 public class Main {
     //dependencies:
     //ydotool - mouse and keyboard automation
+    //ydotoold - backend for ydotool
     //grim - screenshot tool
     public static final String SEP = File.separator;
+
+    public static final String ROOT_PASSWORD = "farout";
+
     public static final BrowserController browserController = new FirefoxController();
+    public static final KeyboardController keyboardController = new KeyboardControllerWayland();
+    public static final MouseController mouseController = new MouseControllerWayland();
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-        browserController.launchBrowser();
-        getRobot().delay(2000);
-        getRobot().keyPress(KeyEvent.VK_Z);
-        getRobot().delay(100);
-        getRobot().keyRelease(KeyEvent.VK_Z);
+//        browserController.launchBrowser();
+
+        TimeUnit.MILLISECONDS.sleep(2000);
+        keyboardController.keyClick("w");
+        keyboardController.printInstantly("https://rewards.bing.com/");
+        
+
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        Robot robot1 = new Robot();
 //        robot1.keyPress(KeyEvent.VK_3);

@@ -1,5 +1,9 @@
 package dev.mkomarov.browser;
 
+import dev.mkomarov.keyboard.KeyboardController;
+import dev.mkomarov.keyboard.KeyboardControllerWayland;
+import dev.mkomarov.mouse.MouseController;
+import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
 
 import java.awt.event.KeyEvent;
@@ -11,6 +15,8 @@ import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 public class FirefoxController implements BrowserController {
     public static final String LAUNCH_FIREFOX_COMMAND;
     private static final String OS = System.getProperty("os.name").toLowerCase();
+    private static final KeyboardController keyboardController = new KeyboardControllerWayland();
+    private static final MouseController mouseController = new MouseControllerWayland();
 
     private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(255, 150, 50);
 
