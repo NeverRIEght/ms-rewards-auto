@@ -1,4 +1,4 @@
-package dev.mkomarov;
+package dev.mkomarov.screen;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static dev.mkomarov.RobotController.robot;
+import static dev.mkomarov.robot.RobotController.robot;
 
-public class ScreenController {
-    private ScreenController() {
+public class ScreenControllerRobot {
+    private ScreenControllerRobot() {
         throw new IllegalStateException("Utility class");
     }
 

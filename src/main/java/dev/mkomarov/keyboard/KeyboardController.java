@@ -1,4 +1,4 @@
-package dev.mkomarov;
+package dev.mkomarov.keyboard;
 
 public interface KeyboardController {
     public void printInstantly(String text);

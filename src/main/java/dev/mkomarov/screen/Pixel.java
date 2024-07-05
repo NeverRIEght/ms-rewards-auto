@@ -1,4 +1,4 @@
-package dev.mkomarov;
+package dev.mkomarov.screen;
 
 public class Pixel {
     private final int x;

@@ -1,22 +1,22 @@
 package dev.mkomarov;
 
-import javax.imageio.ImageIO;
+import dev.mkomarov.browser.BrowserController;
+import dev.mkomarov.browser.FirefoxController;
+import dev.mkomarov.mouse.Direction;
+import dev.mkomarov.screen.Pixel;
+
 import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static dev.mkomarov.RobotController.*;
-import static dev.mkomarov.ScreenController.*;
+import static dev.mkomarov.robot.RobotController.*;
+import static dev.mkomarov.screen.ScreenControllerRobot.*;
 
 public class Main {
     //dependencies:

@@ -1,4 +1,4 @@
-package dev.mkomarov;
+package dev.mkomarov.robot;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

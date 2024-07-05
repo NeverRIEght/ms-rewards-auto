@@ -1,4 +1,6 @@
-package dev.mkomarov;
+package dev.mkomarov.browser;
+
+import dev.mkomarov.screen.Pixel;
 
 import java.io.IOException;
 

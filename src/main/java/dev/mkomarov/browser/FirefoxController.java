@@ -1,11 +1,12 @@
-package dev.mkomarov;
+package dev.mkomarov.browser;
 
-import java.awt.event.InputEvent;
+import dev.mkomarov.screen.Pixel;
+
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
-import static dev.mkomarov.RobotController.*;
-import static dev.mkomarov.ScreenController.findPixel;
+import static dev.mkomarov.robot.RobotController.*;
+import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 
 public class FirefoxController implements BrowserController {
     public static final String LAUNCH_FIREFOX_COMMAND;
