@@ -40,8 +40,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
         browserController.launchBrowser();
-//        TimeUnit.MILLISECONDS.sleep(2000);
-//        browserController.createNewTab();
+        TimeUnit.MILLISECONDS.sleep(2000);
+        browserController.createNewTab();
 //        TimeUnit.MILLISECONDS.sleep(200);
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        TimeUnit.MILLISECONDS.sleep(2000);

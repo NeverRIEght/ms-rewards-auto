@@ -7,12 +7,12 @@ import java.util.Random;
 public class KeyboardControllerWayland implements KeyboardController {
     @Override
     public void keyClick(String validKey) {
-        TerminalController.executeCommand("ydotool key " + validKey);
+        TerminalController.executeCommand("ydotool key " + validKey, true, true);
     }
 
     @Override
     public void printInstantly(String text) {
-        TerminalController.executeCommand("ydotool type --key-delay 0 '" + text + "'");
+        TerminalController.executeCommand("ydotool type --key-delay 0 '" + text + "'", true, true);
     }
 
     @Override
