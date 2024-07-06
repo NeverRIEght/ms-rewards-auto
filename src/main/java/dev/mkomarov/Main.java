@@ -8,6 +8,8 @@ import dev.mkomarov.mouse.Direction;
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
+import dev.mkomarov.screen.ScreenController;
+import dev.mkomarov.screen.ScreenControllerWayland;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
@@ -37,6 +39,7 @@ public class Main {
     public static final BrowserController browserController = new FirefoxController();
     public static final KeyboardController keyboardController = new KeyboardControllerWayland();
     public static final MouseController mouseController = new MouseControllerWayland();
+    public static final ScreenController screenController = new ScreenControllerWayland();
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
         browserController.launchBrowser();
@@ -44,9 +47,9 @@ public class Main {
         browserController.createNewTab();
         TimeUnit.MILLISECONDS.sleep(200);
         browserController.navigateTo("https://rewards.bing.com/");
-        TimeUnit.MILLISECONDS.sleep(2000);
+        TimeUnit.MILLISECONDS.sleep(5000);
         Pixel pixel = browserController.searchOnPage("Daily");
-        System.out.println(pixel);
+        System.out.println(pixel.getX() + " " + pixel.getY());
 
 //        mouseController.mouseMove(1920/2, 1080/2);
 //        mouseController.mouseClick();

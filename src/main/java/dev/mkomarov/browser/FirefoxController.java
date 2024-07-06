@@ -6,6 +6,8 @@ import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
+import dev.mkomarov.screen.ScreenController;
+import dev.mkomarov.screen.ScreenControllerWayland;
 
 import java.io.IOException;
 
@@ -16,8 +18,9 @@ public class FirefoxController implements BrowserController {
     private static final String OS = System.getProperty("os.name").toLowerCase();
     private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
+    private static final ScreenController screenController = new ScreenControllerWayland();
 
-    private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(56,216,120);
+    private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(56, 216, 120);
 
     static {
         if (OS.contains("win")) {
@@ -58,7 +61,7 @@ public class FirefoxController implements BrowserController {
     @Override
     public Pixel searchOnPage(String text) {
         try {
-        keyboardController.keyClick("ctrl+f");
+            keyboardController.keyClick("ctrl+f");
             Thread.sleep(500);
 
             keyboardController.printInstantly("daily");
@@ -68,7 +71,7 @@ public class FirefoxController implements BrowserController {
 
             Thread.sleep(1000);
 
-            Pixel pixelFound = findPixel(SEARCH_SELECTION_COLOR, 52, 0);
+            Pixel pixelFound = screenController.findPixel(SEARCH_SELECTION_COLOR, 0, 0);
 
             if (pixelFound == null) throw new RuntimeException("Pixel not found");
             return pixelFound;

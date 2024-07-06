@@ -12,24 +12,22 @@ public class ScreenControllerWayland implements ScreenController {
     private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     private static final int SCREEN_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
-    private static final String DEFAULT_TEMPORARY_SCREENSHOT_PATH = "/tmp/screenshot.png";
-
-    private ScreenControllerWayland() {
-        throw new IllegalStateException("Utility class");
-    }
+    private static final String DEFAULT_TEMPORARY_SCREENSHOT_PATH = "tmp_screenshot.png";
 
     public BufferedImage takeScreenshot() {
         if (new File(DEFAULT_TEMPORARY_SCREENSHOT_PATH).exists()) {
-            throw new RuntimeException("File already exists: " + DEFAULT_TEMPORARY_SCREENSHOT_PATH);
+            System.out.println("Rewriting file: " + DEFAULT_TEMPORARY_SCREENSHOT_PATH);
         }
 
-        TerminalController.executeCommand("gnome-screenshot -f " + DEFAULT_TEMPORARY_SCREENSHOT_PATH);
+        TerminalController.executeCommand("gnome-screenshot --file=" + DEFAULT_TEMPORARY_SCREENSHOT_PATH, false, true);
         BufferedImage image = getImageFromPath(DEFAULT_TEMPORARY_SCREENSHOT_PATH);
 
         boolean isFileDeleted = new File(DEFAULT_TEMPORARY_SCREENSHOT_PATH).delete();
 
         if (!isFileDeleted) {
             throw new RuntimeException("Failed to delete the screenshot file: " + DEFAULT_TEMPORARY_SCREENSHOT_PATH);
+        } else {
+            System.out.println("Screenshot file deleted: " + DEFAULT_TEMPORARY_SCREENSHOT_PATH);
         }
 
         return image;
