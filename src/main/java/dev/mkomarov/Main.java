@@ -26,7 +26,9 @@ public class Main {
     //dependencies:
     //ydotool - mouse and keyboard automation
     //ydotoold - backend for ydotool
-    //grim - screenshot tool
+    //sway - ydotool configuration
+    //gnome-screenshot - screenshot tool
+
     public static final String SEP = File.separator;
 
     public static final String ROOT_PASSWORD = "farout";
@@ -36,10 +38,17 @@ public class Main {
     public static final MouseController mouseController = new MouseControllerWayland();
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-        browserController.launchBrowser();
-        browserController.navigateTo("https://rewards.bing.com/");
-        TimeUnit.MILLISECONDS.sleep(5000);
-        browserController.searchOnPage("Daily");
+//        browserController.launchBrowser();
+//        TimeUnit.MILLISECONDS.sleep(2000);
+//        keyboardController.keyClick("ctrl+t");
+//        TimeUnit.MILLISECONDS.sleep(200);
+//        browserController.navigateTo("https://rewards.bing.com/");
+//        TimeUnit.MILLISECONDS.sleep(2000);
+//        Pixel pixel = browserController.searchOnPage("Daily");
+//        System.out.println(pixel);
+
+        mouseController.mouseMove(1920/2, 1080/2);
+//        mouseController.mouseClick();
 
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        Robot robot1 = new Robot();

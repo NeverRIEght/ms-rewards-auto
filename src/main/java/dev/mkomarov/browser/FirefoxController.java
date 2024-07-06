@@ -1,5 +1,6 @@
 package dev.mkomarov.browser;
 
+import dev.mkomarov.TerminalController;
 import dev.mkomarov.keyboard.KeyboardController;
 import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.MouseController;
@@ -33,7 +34,7 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void launchBrowser() throws IOException {
-        Runtime.getRuntime().exec(LAUNCH_FIREFOX_COMMAND);
+        TerminalController.executeCommand(LAUNCH_FIREFOX_COMMAND);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class FirefoxController implements BrowserController {
     @Override
     public void navigateTo(String url) {
         keyboardController.printInstantly(url);
+        keyboardController.keyClick("enter");
     }
 
     @Override
@@ -62,7 +64,7 @@ public class FirefoxController implements BrowserController {
         keyboardController.keyClick("ctrl+f");
             Thread.sleep(500);
 
-            printWordWithRobot("daily");
+            keyboardController.printInstantly("daily");
             Thread.sleep(300);
 
             keyboardController.keyClick("enter");
