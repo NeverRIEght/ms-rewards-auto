@@ -24,6 +24,7 @@ import static dev.mkomarov.screen.ScreenControllerRobot.*;
 
 public class Main {
     //dependencies:
+    //wtype - keyboard automation
     //ydotool - mouse and keyboard automation
     //ydotoold - backend for ydotool
     //sway - ydotool configuration
@@ -38,16 +39,16 @@ public class Main {
     public static final MouseController mouseController = new MouseControllerWayland();
 
     public static void main(String[] args) throws IOException, InterruptedException, AWTException {
-//        browserController.launchBrowser();
+        browserController.launchBrowser();
 //        TimeUnit.MILLISECONDS.sleep(2000);
-//        keyboardController.keyClick("ctrl+t");
+//        browserController.createNewTab();
 //        TimeUnit.MILLISECONDS.sleep(200);
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        TimeUnit.MILLISECONDS.sleep(2000);
 //        Pixel pixel = browserController.searchOnPage("Daily");
 //        System.out.println(pixel);
 
-        mouseController.mouseMove(1920/2, 1080/2);
+//        mouseController.mouseMove(1920/2, 1080/2);
 //        mouseController.mouseClick();
 
 //        browserController.navigateTo("https://rewards.bing.com/");

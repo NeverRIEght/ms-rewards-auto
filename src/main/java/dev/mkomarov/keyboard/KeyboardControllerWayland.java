@@ -2,12 +2,7 @@ package dev.mkomarov.keyboard;
 
 import dev.mkomarov.TerminalController;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Random;
-
-import static dev.mkomarov.Main.ROOT_PASSWORD;
 
 public class KeyboardControllerWayland implements KeyboardController {
     @Override

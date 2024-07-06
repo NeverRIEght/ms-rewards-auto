@@ -7,11 +7,8 @@ import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
-import static dev.mkomarov.robot.RobotController.*;
 import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 
 public class FirefoxController implements BrowserController {
