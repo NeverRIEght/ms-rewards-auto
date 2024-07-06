@@ -4,15 +4,27 @@ import dev.mkomarov.TerminalController;
 
 import java.util.Random;
 
+import static dev.mkomarov.TerminalController.executeCommand;
+
 public class KeyboardControllerWayland implements KeyboardController {
     @Override
     public void keyClick(String validKey) {
-        TerminalController.executeCommand("ydotool key " + validKey, true, true);
+        executeCommand("ydotool key " + validKey, true, false);
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void printInstantly(String text) {
-        TerminalController.executeCommand("ydotool type --key-delay 0 '" + text + "'", true, true);
+        executeCommand("ydotool type --key-delay 0 '" + text + "'", true, false);
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

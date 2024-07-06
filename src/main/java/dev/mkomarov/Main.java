@@ -42,11 +42,11 @@ public class Main {
         browserController.launchBrowser();
         TimeUnit.MILLISECONDS.sleep(2000);
         browserController.createNewTab();
-//        TimeUnit.MILLISECONDS.sleep(200);
-//        browserController.navigateTo("https://rewards.bing.com/");
-//        TimeUnit.MILLISECONDS.sleep(2000);
-//        Pixel pixel = browserController.searchOnPage("Daily");
-//        System.out.println(pixel);
+        TimeUnit.MILLISECONDS.sleep(200);
+        browserController.navigateTo("https://rewards.bing.com/");
+        TimeUnit.MILLISECONDS.sleep(2000);
+        Pixel pixel = browserController.searchOnPage("Daily");
+        System.out.println(pixel);
 
 //        mouseController.mouseMove(1920/2, 1080/2);
 //        mouseController.mouseClick();
