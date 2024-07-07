@@ -11,7 +11,6 @@ import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
 
-import java.awt.*;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -21,16 +20,13 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static dev.mkomarov.TerminalController.executeCommand;
 import static dev.mkomarov.robot.RobotController.*;
 import static dev.mkomarov.screen.ScreenControllerRobot.*;
 
 public class Main {
     //dependencies:
-    //wtype - keyboard automation
     //ydotool - mouse and keyboard automation
     //ydotoold - backend for ydotool
-    //sway - ydotool configuration
     //gnome-screenshot - screenshot tool
 
     public static final String SEP = File.separator;
