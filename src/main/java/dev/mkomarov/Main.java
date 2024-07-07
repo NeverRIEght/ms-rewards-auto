@@ -52,40 +52,9 @@ public class Main {
         TimeUnit.MILLISECONDS.sleep(5000);
 
         browserController.doDailySites();
+        browserController.doDailySearches(30);
 
         daemon.interrupt();
-
-
-//        browserController.navigateTo("https://rewards.bing.com/");
-//        Robot robot1 = new Robot();
-//        robot1.keyPress(KeyEvent.VK_3);
-//        robot1.delay(100);
-//        robot1.keyRelease(KeyEvent.VK_3);
-
-//        Runtime.getRuntime().exec(EDGE_PATH);
-//        TimeUnit.MILLISECONDS.sleep(5000);
-//        String[] launchBlueStacks = new String[] {
-//                "C:\\Program Files\\BlueStacks_nxt\\HD-Player.exe",
-//                "--instance",
-//                "Rvc64",
-//                "--cmd",
-//                "launchApp",
-//                "--package",
-//                "com.microsoft.bing",
-//                "--source",
-//                "desktop_shortcut"
-//        };
-//        Runtime.getRuntime().exec(launchBlueStacks);
-
-//        TimeUnit.MILLISECONDS.sleep(10000);
-//        robot.keyPress(KeyEvent.VK_F11);
-//        robot.delay(300);
-//        robot.keyRelease(KeyEvent.VK_F11);
-
-
-//        doMobile();
-
-//        doPC();
     }
 
     public static void doPC() {

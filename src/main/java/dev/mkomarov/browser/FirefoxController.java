@@ -8,6 +8,8 @@ import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
+import dev.mkomarov.search.SearchController;
+import dev.mkomarov.search.SearchControllerImpl;
 
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class FirefoxController implements BrowserController {
     private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
     private static final ScreenController screenController = new ScreenControllerWayland();
+    private static final SearchController searchController = new SearchControllerImpl();
 
     private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(56, 216, 120);
 
@@ -116,20 +119,25 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void doDailySearches(int amount) {
-//        Random random = new Random();
-//        try {
-//            for (int i = 0; i < 30; i++) {
-//                TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
-//                createNewTab();
-//                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
-//                printWordWithRobot(words.get(random.nextInt(words.size())));
-//                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
-//                robot.keyPress(KeyEvent.VK_ENTER);
-//                TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
-//                closeTab();
-//            }
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
+        Random random = new Random();
+        try {
+            for (int i = 0; i < amount; i++) {
+                String currentWord = searchController.getRandomWord();
+                TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
+                createNewTab();
+
+                TimeUnit.MILLISECONDS.sleep(200);
+                navigateTo("bing.com");
+
+                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+                keyboardController.print(currentWord, 450, 600);
+                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+                keyboardController.keyClick("enter");
+                TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
+                closeTab();
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

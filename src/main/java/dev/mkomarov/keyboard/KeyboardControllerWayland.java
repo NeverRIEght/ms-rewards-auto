@@ -33,8 +33,8 @@ public class KeyboardControllerWayland implements KeyboardController {
         char[] chars = text.toCharArray();
         try {
             for (char c : chars) {
-                keyClick(String.valueOf(c));
                 Thread.sleep(random.nextInt(minDelayMs, maxDelayMs));
+                keyClick(String.valueOf(c));
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
