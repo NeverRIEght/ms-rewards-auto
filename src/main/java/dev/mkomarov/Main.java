@@ -7,6 +7,9 @@ import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.Direction;
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
+import dev.mkomarov.phone.PhoneController;
+import dev.mkomarov.phone.WaydroidController;
+import dev.mkomarov.screen.Color;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
@@ -37,20 +40,33 @@ public class Main {
     public static final KeyboardController keyboardController = new KeyboardControllerWayland();
     public static final MouseController mouseController = new MouseControllerWayland();
     public static final ScreenController screenController = new ScreenControllerWayland();
+    public static final PhoneController phoneController = new WaydroidController();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Thread daemon = TerminalController.startYdotoolDaemon();
-        browserController.launchBrowser();
-        TimeUnit.MILLISECONDS.sleep(2000);
-        browserController.createNewTab();
-        TimeUnit.MILLISECONDS.sleep(200);
-        browserController.navigateTo("https://rewards.bing.com/");
-        TimeUnit.MILLISECONDS.sleep(5000);
+        try {
+//        browserController.launchBrowser();
+//        TimeUnit.MILLISECONDS.sleep(2000);
+//        browserController.createNewTab();
+//        TimeUnit.MILLISECONDS.sleep(200);
+//        browserController.navigateTo("https://rewards.bing.com/");
+//        TimeUnit.MILLISECONDS.sleep(5000);
+//
+//        browserController.doDailySites();
+//        browserController.doDailySearches(30);
 
-        browserController.doDailySites();
-        browserController.doDailySearches(30);
+            phoneController.launchSession();
 
-        daemon.interrupt();
+            Thread.sleep(500);
+            Pixel topLeftCorner = screenController.findLastPixel(new Color(0, 0, 0));
+            mouseController.mouseMove(topLeftCorner.getX(), topLeftCorner.getY());
+            Thread.sleep(10000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            phoneController.closeSession();
+            daemon.interrupt();
+        }
     }
 
     public static void doPC() {
@@ -119,7 +135,7 @@ public class Main {
         robot.delay(200);
         doSwipe(960, 540, Direction.DOWN, 50);
 
-        Pixel pixelFound = findPixel(new Pixel.Color(195, 53, 1), 0, 0, 1920, 1080);
+        Pixel pixelFound = findPixel(new Color(195, 53, 1), 0, 0, 1920, 1080);
 
         if (pixelFound == null) throw new RuntimeException("Pixel not found");
 
@@ -127,7 +143,7 @@ public class Main {
 
         Pixel controlPixel = new Pixel(pixelFound.getX(),
                 pixelFound.getY() + 20,
-                new Pixel.Color(getPixelColor(pixelFound.getX(), pixelFound.getY() + 20).getColor()));
+                new Color(getPixelColor(pixelFound.getX(), pixelFound.getY() + 20).getColor()));
 
         controlPixels.add(controlPixel);
 
@@ -230,7 +246,7 @@ public class Main {
 
         robot.delay(1000);
 
-        Pixel pixelFound = findPixel(new Pixel.Color(255, 150, 50), 52, 0);
+        Pixel pixelFound = findPixel(new Color(255, 150, 50), 52, 0);
 
         if (pixelFound == null) throw new RuntimeException("Pixel not found");
         int pixelX = pixelFound.getX() + 20;

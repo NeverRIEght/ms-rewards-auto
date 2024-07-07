@@ -5,6 +5,7 @@ import dev.mkomarov.keyboard.KeyboardController;
 import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
+import dev.mkomarov.screen.Color;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
@@ -28,7 +29,7 @@ public class FirefoxController implements BrowserController {
     private static final ScreenController screenController = new ScreenControllerWayland();
     private static final SearchController searchController = new SearchControllerImpl();
 
-    private static final Pixel.Color SEARCH_SELECTION_COLOR = new Pixel.Color(56, 216, 120);
+    private static final Color SEARCH_SELECTION_COLOR = new Color(56, 216, 120);
 
     static {
         if (OS.contains("win")) {

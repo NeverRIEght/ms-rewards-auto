@@ -13,15 +13,15 @@ public class ScreenControllerRobot {
         throw new IllegalStateException("Utility class");
     }
 
-    public static Pixel findPixel(Pixel.Color color) {
+    public static Pixel findPixel(Color color) {
         return findPixel(color, 0, 0, 1920, 1080);
     }
 
-    public static Pixel findPixel(Pixel.Color color, int startX, int startY) {
+    public static Pixel findPixel(Color color, int startX, int startY) {
         return findPixel(color, startX, startY, 1920, 1080);
     }
 
-    public static Pixel findPixel(Pixel.Color color, int startX, int startY, int endX, int endY) {
+    public static Pixel findPixel(Color color, int startX, int startY, int endX, int endY) {
         robot.delay(300);
         BufferedImage screenshot = robot.createScreenCapture(new Rectangle(startX, startY, endX, endY));
         robot.delay(300);
@@ -34,14 +34,14 @@ public class ScreenControllerRobot {
                 if (pixelFound != null) break;
 
                 int thisColor = screenshot.getRGB(x, y);
-                int thisRed = Pixel.Color.getRed(thisColor);
-                int thisGreen = Pixel.Color.getGreen(thisColor);
-                int thisBlue = Pixel.Color.getBlue(thisColor);
+                int thisRed = Color.getRed(thisColor);
+                int thisGreen = Color.getGreen(thisColor);
+                int thisBlue = Color.getBlue(thisColor);
 
                 if (thisRed == color.getRed()
                         && thisGreen == color.getGreen()
                         && thisBlue == color.getBlue()) {
-                    pixelFound = new Pixel(x, y, new Pixel.Color(thisColor));
+                    pixelFound = new Pixel(x, y, new Color(thisColor));
                 }
             }
         }
@@ -49,10 +49,10 @@ public class ScreenControllerRobot {
         return pixelFound;
     }
 
-    public static Pixel.Color getPixelColor(int x, int y) {
+    public static Color getPixelColor(int x, int y) {
         BufferedImage screenshot = robot.createScreenCapture(new Rectangle(x, y, 1, 1));
         robot.delay(300);
-        return new Pixel.Color(screenshot.getRGB(0, 0));
+        return new Color(screenshot.getRGB(0, 0));
     }
 
     public static BufferedImage getImageFromPath(String path) {
@@ -92,7 +92,7 @@ public class ScreenControllerRobot {
 
                 BufferedImage subImage = screenshot.getSubimage(x, y, image.getWidth(), image.getHeight());
                 if (compareImages(subImage, image)) {
-                    return new Pixel(x + image.getWidth() / 2, y + image.getHeight() / 2, new Pixel.Color(screenshot.getRGB(x, y)));
+                    return new Pixel(x + image.getWidth() / 2, y + image.getHeight() / 2, new Color(screenshot.getRGB(x, y)));
                 }
             }
         }

@@ -41,15 +41,15 @@ public class ScreenControllerWayland implements ScreenController {
         }
     }
 
-    public Pixel findPixel(Pixel.Color color) {
+    public Pixel findPixel(Color color) {
         return findPixel(color, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    public Pixel findPixel(Pixel.Color color, int startX, int startY) {
+    public Pixel findPixel(Color color, int startX, int startY) {
         return findPixel(color, startX, startY, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
 
-    public Pixel findPixel(Pixel.Color color, int startX, int startY, int endX, int endY) {
+    public Pixel findPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
         Pixel pixelFound = null;
@@ -60,14 +60,14 @@ public class ScreenControllerWayland implements ScreenController {
                 if (pixelFound != null) break;
 
                 int thisColor = screenshot.getRGB(x, y);
-                int thisRed = Pixel.Color.getRed(thisColor);
-                int thisGreen = Pixel.Color.getGreen(thisColor);
-                int thisBlue = Pixel.Color.getBlue(thisColor);
+                int thisRed = Color.getRed(thisColor);
+                int thisGreen = Color.getGreen(thisColor);
+                int thisBlue = Color.getBlue(thisColor);
 
                 if (thisRed == color.getRed()
                         && thisGreen == color.getGreen()
                         && thisBlue == color.getBlue()) {
-                    pixelFound = new Pixel(x, y, new Pixel.Color(thisColor));
+                    pixelFound = new Pixel(x, y, new Color(thisColor));
                 }
             }
         }
@@ -75,8 +75,42 @@ public class ScreenControllerWayland implements ScreenController {
         return pixelFound;
     }
 
-    public Pixel.Color getPixelColor(int x, int y) {
+    public Pixel findLastPixel(Color color) {
+        return findLastPixel(color, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    public Pixel findLastPixel(Color color, int startX, int startY) {
+        return findLastPixel(color, startX, startY, SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    public Pixel findLastPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
-        return new Pixel.Color(screenshot.getRGB(x, y));
+
+        Pixel pixelFound = null;
+
+        for (int y = screenshot.getHeight() - 1; y >= 0; y--) {
+            if (pixelFound != null) break;
+            for (int x = screenshot.getWidth() - 1; x >= 0; x--) {
+                if (pixelFound != null) break;
+
+                int thisColor = screenshot.getRGB(x, y);
+                int thisRed = Color.getRed(thisColor);
+                int thisGreen = Color.getGreen(thisColor);
+                int thisBlue = Color.getBlue(thisColor);
+
+                if (thisRed == color.getRed()
+                        && thisGreen == color.getGreen()
+                        && thisBlue == color.getBlue()) {
+                    pixelFound = new Pixel(x, y, new Color(thisColor));
+                }
+            }
+        }
+
+        return pixelFound;
+    }
+
+    public Color getPixelColor(int x, int y) {
+        BufferedImage screenshot = takeScreenshot();
+        return new Color(screenshot.getRGB(x, y));
     }
 }

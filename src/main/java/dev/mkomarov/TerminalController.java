@@ -17,7 +17,7 @@ public class TerminalController {
         }
     }
 
-    public static void executeCommand(String command, boolean rootAccess, boolean printLog) {
+    public static Process executeCommand(String command, boolean rootAccess, boolean printLog) {
         if (rootAccess) {
             command = appendRootPassword(command);
         }
@@ -27,6 +27,8 @@ public class TerminalController {
         if (printLog) {
             printCommandLog(process);
         }
+
+        return process;
     }
 
     public static String getCommandLog(Process process) {
