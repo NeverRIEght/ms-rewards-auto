@@ -28,25 +28,30 @@ public class TerminalController {
         }
     }
 
-    private static void printCommandLog(Process process) {
+    public static String getCommandLog(Process process) {
         try {
+            StringBuilder log = new StringBuilder();
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader stdError = new BufferedReader(new InputStreamReader(process.getErrorStream()));
 
             String s;
             while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
+                log.append(s);
             }
 
             while ((s = stdError.readLine()) != null) {
-                System.out.println(s);
+                log.append(s);
             }
 
             process.waitFor();
-
+            return log.toString();
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void printCommandLog(Process process) {
+        System.out.println(getCommandLog(process));
     }
 
     private static String appendRootPassword(String command) {

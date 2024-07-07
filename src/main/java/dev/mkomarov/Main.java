@@ -50,9 +50,8 @@ public class Main {
         TimeUnit.MILLISECONDS.sleep(5000);
         Pixel pixel = browserController.searchOnPage("Daily");
         System.out.println(pixel.getX() + " " + pixel.getY());
+        mouseController.mouseMove(pixel.getX() + 10, pixel.getY() + 100);
 
-//        mouseController.mouseMove(1920/2, 1080/2);
-//        mouseController.mouseClick();
 
 //        browserController.navigateTo("https://rewards.bing.com/");
 //        Robot robot1 = new Robot();

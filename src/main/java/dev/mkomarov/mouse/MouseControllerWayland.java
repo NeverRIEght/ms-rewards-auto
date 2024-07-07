@@ -2,65 +2,100 @@ package dev.mkomarov.mouse;
 
 import dev.mkomarov.TerminalController;
 
+import static dev.mkomarov.TerminalController.executeCommand;
+import static dev.mkomarov.TerminalController.getCommandLog;
+
 public class MouseControllerWayland implements MouseController {
+    private static final String GET_MOUSE_SPEED_COMMAND =
+            "gsettings get org.gnome.desktop.peripherals.mouse speed ";
+    private static final String GET_MOUSE_ACCEL_COMMAND =
+            "gsettings get org.gnome.desktop.peripherals.mouse accel-profile ";
+    private static final String SET_MOUSE_SPEED_COMMAND =
+            "gsettings set org.gnome.desktop.peripherals.mouse speed ";
+    private static final String SET_MOUSE_ACCEL_COMMAND =
+            "gsettings set org.gnome.desktop.peripherals.mouse accel-profile ";
+
+    private static final String DEFAULT_ACCEL_PROFILE = "flat";
+    private static final double DEFAULT_SPEED = 0.0;
+
     @Override
     public void mouseMove(int x, int y) {
-        TerminalController.executeCommand("swaymsg input \"9011:26214:ydotoold_virtual_device\" accel_profile flat");
-        TerminalController.executeCommand("ydotool mousemove --absolute -- " + x + " " + y);
+        String originalAccelProfileLog = getCommandLog(executeCommand(GET_MOUSE_ACCEL_COMMAND));
+        String originalSpeedLog = getCommandLog(executeCommand(GET_MOUSE_SPEED_COMMAND));
+        double originalSpeed = Double.parseDouble(originalSpeedLog);
+
+        setMouseSpeed(DEFAULT_SPEED);
+        setMouseAccelProfile(DEFAULT_ACCEL_PROFILE);
+
+        executeCommand("ydotool mousemove " + x + " " + y, true, true);
+
+        setMouseSpeed(originalSpeed);
+        setMouseAccelProfile(originalAccelProfileLog);
+    }
+
+    private void setMouseSpeed(double speed) {
+        executeCommand(SET_MOUSE_SPEED_COMMAND + speed);
+    }
+
+    private void setMouseAccelProfile(String profile) {
+        if (!profile.contains("'")) {
+            profile = "'" + profile + "'";
+        }
+        executeCommand(SET_MOUSE_ACCEL_COMMAND + profile);
     }
 
     @Override
     public void mouseMove(Direction direction, int pixels) {
         switch (direction) {
             case UP:
-                TerminalController.executeCommand("ydotool mousemove_relative -- -0 " + (-pixels));
+                executeCommand("ydotool mousemove_relative -- -0 " + (-pixels));
                 break;
             case DOWN:
-                TerminalController.executeCommand("ydotool mousemove_relative -- -0 " + pixels);
+                executeCommand("ydotool mousemove_relative -- -0 " + pixels);
                 break;
             case LEFT:
-                TerminalController.executeCommand("ydotool mousemove_relative -- -" + pixels + " 0");
+                executeCommand("ydotool mousemove_relative -- -" + pixels + " 0");
                 break;
             case RIGHT:
-                TerminalController.executeCommand("ydotool mousemove_relative " + pixels + " 0");
+                executeCommand("ydotool mousemove_relative " + pixels + " 0");
                 break;
         }
     }
 
     @Override
     public void mouseClick() {
-        TerminalController.executeCommand("ydotool click 1");
+        executeCommand("ydotool click 1");
     }
 
     @Override
     public void mouseDoubleClick() {
-        TerminalController.executeCommand("ydotool click --repeat 2 1");
+        executeCommand("ydotool click --repeat 2 1");
     }
 
     @Override
     public void mouseRightClick() {
-        TerminalController.executeCommand("ydotool click 3");
+        executeCommand("ydotool click 3");
     }
 
     @Override
     public void mouseMiddleClick() {
-        TerminalController.executeCommand("ydotool click 2");
+        executeCommand("ydotool click 2");
     }
 
     @Override
     public void mouseScroll(Direction direction, int amount) {
         switch (direction) {
             case UP:
-                TerminalController.executeCommand("ydotool scroll up " + amount);
+                executeCommand("ydotool scroll up " + amount);
                 break;
             case DOWN:
-                TerminalController.executeCommand("ydotool scroll down " + amount);
+                executeCommand("ydotool scroll down " + amount);
                 break;
             case LEFT:
-                TerminalController.executeCommand("ydotool scroll left " + amount);
+                executeCommand("ydotool scroll left " + amount);
                 break;
             case RIGHT:
-                TerminalController.executeCommand("ydotool scroll right " + amount);
+                executeCommand("ydotool scroll right " + amount);
                 break;
         }
     }
@@ -69,7 +104,7 @@ public class MouseControllerWayland implements MouseController {
     public void mouseSwipe(int startX, int startY, int endX, int endY, int speed) {
         mouseMove(startX, startY);
 
-        TerminalController.executeCommand("ydotool mousedown 1");
+        executeCommand("ydotool mousedown 1");
 
         int steps = 50;
         int delay = speed / steps;
@@ -90,6 +125,6 @@ public class MouseControllerWayland implements MouseController {
 
         mouseMove(endX, endY);
 
-        TerminalController.executeCommand("ydotool mouseup 1");
+        executeCommand("ydotool mouseup 1");
     }
 }
