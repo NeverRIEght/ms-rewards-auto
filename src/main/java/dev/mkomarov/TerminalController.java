@@ -1,6 +1,7 @@
 package dev.mkomarov;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -56,5 +57,37 @@ public class TerminalController {
 
     private static String appendRootPassword(String command) {
         return "echo " + ROOT_PASSWORD + " | sudo -S " + command;
+    }
+
+    public static Thread startYdotoolDaemon() {
+        Thread thread = new YdotoolDemonThread();
+        thread.setDaemon(true);
+        thread.start();
+        return thread;
+    }
+
+    private static class YdotoolDemonThread extends Thread implements Closeable {
+        @Override
+        public void run() {
+            executeCommand("ydotoold --socket-path=\"$HOME/.ydotool_socket\" --socket-own=\"$(id -u):$(id -g)\"", true, true);
+            try {
+                while (!Thread.currentThread().isInterrupted()) {
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            } finally {
+                this.close();
+            }
+        }
+
+        @Override
+        public void close() {
+            try {
+                executeCommand("pkill ydotoold", true, true);
+            } catch (Exception e) {
+                System.err.println("Could not close ydotoold process");
+            }
+        }
     }
 }

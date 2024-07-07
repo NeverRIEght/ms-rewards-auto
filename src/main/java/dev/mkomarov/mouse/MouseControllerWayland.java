@@ -64,22 +64,22 @@ public class MouseControllerWayland implements MouseController {
 
     @Override
     public void mouseClick() {
-        executeCommand("ydotool click 1");
+        executeCommand("ydotool click 1", true, true);
     }
 
     @Override
     public void mouseDoubleClick() {
-        executeCommand("ydotool click --repeat 2 1");
+        executeCommand("ydotool click --repeat=2 1", true, true);
     }
 
     @Override
     public void mouseRightClick() {
-        executeCommand("ydotool click 3");
+        executeCommand("ydotool click 2", true, true);
     }
 
     @Override
     public void mouseMiddleClick() {
-        executeCommand("ydotool click 2");
+        executeCommand("ydotool click 3", true, true);
     }
 
     @Override

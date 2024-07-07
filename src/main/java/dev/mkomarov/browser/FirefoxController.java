@@ -9,8 +9,13 @@ import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
 
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
+import static dev.mkomarov.robot.RobotController.printWordWithRobot;
+import static dev.mkomarov.robot.RobotController.robot;
 import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 
 public class FirefoxController implements BrowserController {
@@ -62,9 +67,9 @@ public class FirefoxController implements BrowserController {
     public Pixel searchOnPage(String text) {
         try {
             keyboardController.keyClick("ctrl+f");
-            Thread.sleep(500);
+            Thread.sleep(700);
 
-            keyboardController.printInstantly("daily");
+            keyboardController.printInstantly("Daily");
             Thread.sleep(300);
 
             keyboardController.keyClick("enter");
@@ -82,11 +87,49 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void doDailySites() {
+        try {
+            Pixel dailySetCoords = searchOnPage("Daily");
 
+            // Open first link
+            mouseController.mouseMove(dailySetCoords.getX() + 200, dailySetCoords.getY() + 150);
+            mouseController.mouseClick();
+            TimeUnit.MILLISECONDS.sleep(3000);
+            closeTab();
+
+            // Open second link
+            TimeUnit.MILLISECONDS.sleep(200);
+            mouseController.mouseMove(dailySetCoords.getX() + 1000, dailySetCoords.getY() + 150);
+            mouseController.mouseClick();
+            TimeUnit.MILLISECONDS.sleep(3000);
+            closeTab();
+
+            // Open third link
+            TimeUnit.MILLISECONDS.sleep(200);
+            mouseController.mouseMove(dailySetCoords.getX() + 1500, dailySetCoords.getY() + 150);
+            mouseController.mouseClick();
+            TimeUnit.MILLISECONDS.sleep(3000);
+            closeTab();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void doDailySearches(int amount) {
-
+//        Random random = new Random();
+//        try {
+//            for (int i = 0; i < 30; i++) {
+//                TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
+//                createNewTab();
+//                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+//                printWordWithRobot(words.get(random.nextInt(words.size())));
+//                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+//                robot.keyPress(KeyEvent.VK_ENTER);
+//                TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
+//                closeTab();
+//            }
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 }

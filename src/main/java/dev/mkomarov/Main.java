@@ -21,6 +21,7 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static dev.mkomarov.TerminalController.executeCommand;
 import static dev.mkomarov.robot.RobotController.*;
 import static dev.mkomarov.screen.ScreenControllerRobot.*;
 
@@ -41,16 +42,18 @@ public class Main {
     public static final MouseController mouseController = new MouseControllerWayland();
     public static final ScreenController screenController = new ScreenControllerWayland();
 
-    public static void main(String[] args) throws IOException, InterruptedException, AWTException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+        Thread daemon = TerminalController.startYdotoolDaemon();
         browserController.launchBrowser();
         TimeUnit.MILLISECONDS.sleep(2000);
         browserController.createNewTab();
         TimeUnit.MILLISECONDS.sleep(200);
         browserController.navigateTo("https://rewards.bing.com/");
         TimeUnit.MILLISECONDS.sleep(5000);
-        Pixel pixel = browserController.searchOnPage("Daily");
-        System.out.println(pixel.getX() + " " + pixel.getY());
-        mouseController.mouseMove(pixel.getX() + 10, pixel.getY() + 100);
+
+        browserController.doDailySites();
+
+        daemon.interrupt();
 
 
 //        browserController.navigateTo("https://rewards.bing.com/");
