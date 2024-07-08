@@ -9,8 +9,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class ScreenControllerWayland implements ScreenController {
-    private static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
-    private static final int SCREEN_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
+    public static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+    public static final int SCREEN_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
     private static final String DEFAULT_TEMPORARY_SCREENSHOT_PATH = "tmp_screenshot.png";
 

@@ -59,6 +59,8 @@ public class Main {
 
             Thread.sleep(500);
             Pixel topLeftCorner = screenController.findLastPixel(new Color(0, 0, 0));
+
+            // Storing cursor inside Waydroid window while session is active = system crash
             mouseController.mouseMove(topLeftCorner.getX(), topLeftCorner.getY());
             Thread.sleep(10000);
         } catch (Exception e) {

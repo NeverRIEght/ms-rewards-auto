@@ -1,9 +1,18 @@
 package dev.mkomarov.phone;
 
+import dev.mkomarov.mouse.MouseController;
+import dev.mkomarov.mouse.MouseControllerWayland;
+import dev.mkomarov.screen.ScreenController;
+import dev.mkomarov.screen.ScreenControllerWayland;
+
 import static dev.mkomarov.TerminalController.executeCommand;
 import static dev.mkomarov.TerminalController.getCommandLog;
+import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_HEIGHT;
+import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_WIDTH;
 
 public class WaydroidController implements PhoneController {
+    private static final ScreenController screenController = new ScreenControllerWayland();
+    private static final MouseController mouseController = new MouseControllerWayland();
     public static final String BING_APP_PACKAGE_NAME = "com.microsoft.bing";
     public static final int WAYDROID_WINDOW_WIDTH = 720;
     private Thread sessionThread;
@@ -33,7 +42,9 @@ public class WaydroidController implements PhoneController {
         sessionThread.start();
 
         try {
-            Thread.sleep(3000);
+            do {
+                Thread.sleep(1000);
+            } while (getStatus() != Status.RUNNING);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -43,6 +54,7 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void closeSession() {
+        mouseController.mouseMove(SCREEN_WIDTH, SCREEN_HEIGHT);
         sessionThread.interrupt();
         executeCommand("waydroid session stop");
     }
