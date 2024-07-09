@@ -111,6 +111,57 @@ public class ScreenControllerWayland implements ScreenController {
 
     public Color getPixelColor(int x, int y) {
         BufferedImage screenshot = takeScreenshot();
+        return getPixelColor(screenshot, x, y);
+    }
+
+    public Color getPixelColor(BufferedImage screenshot, int x, int y) {
         return new Color(screenshot.getRGB(x, y));
+    }
+
+    public Pixel[] findBorder(Pixel startPixel) {
+        BufferedImage screenshot = takeScreenshot();
+        Color pixelColor = getPixelColor(screenshot, startPixel.getX(), startPixel.getY());
+        return findBorder(screenshot, startPixel, pixelColor);
+    }
+
+    public Pixel[] findBorder(Pixel startPixel, Color borderColor) {
+        BufferedImage screenshot = takeScreenshot();
+        return findBorder(screenshot, startPixel, borderColor);
+    }
+
+    public Pixel[] findBorder(BufferedImage screenshot, Pixel startPixel, Color borderColor) {
+        Pixel leftPixel = new Pixel(startPixel.getX(), startPixel.getY());
+        Pixel rightPixel = new Pixel(startPixel.getX(), startPixel.getY());
+
+        while (getPixelColor(screenshot, leftPixel.getX(), leftPixel.getY()).equals(borderColor)) {
+            leftPixel = new Pixel(leftPixel.getX() - 1, leftPixel.getY());
+        }
+
+        while (getPixelColor(screenshot, rightPixel.getX(), rightPixel.getY()).equals(borderColor)) {
+            rightPixel = new Pixel(rightPixel.getX() + 1, rightPixel.getY());
+        }
+
+        Pixel topPixel = new Pixel(startPixel.getX(), startPixel.getY());
+        Pixel bottomPixel = new Pixel(startPixel.getX(), startPixel.getY());
+
+        while (getPixelColor(screenshot, topPixel.getX(), topPixel.getY()).equals(borderColor)) {
+            topPixel = new Pixel(topPixel.getX(), topPixel.getY() - 1);
+        }
+
+        while (getPixelColor(screenshot, bottomPixel.getX(), bottomPixel.getY()).equals(borderColor)) {
+            bottomPixel = new Pixel(bottomPixel.getX(), bottomPixel.getY() + 1);
+        }
+
+        Pixel topLeftPixel = new Pixel(leftPixel.getX(), topPixel.getY());
+        Pixel bottomRightPixel = new Pixel(rightPixel.getX(), bottomPixel.getY());
+
+        return new Pixel[]{topLeftPixel, bottomRightPixel};
+    }
+
+    public Pixel findMiddlePixel(Pixel startPixel, Pixel endPixel) {
+        return new Pixel(
+                (startPixel.getX() + endPixel.getX()) / 2,
+                (startPixel.getY() + endPixel.getY()) / 2
+        );
     }
 }

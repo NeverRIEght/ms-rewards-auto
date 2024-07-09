@@ -9,6 +9,12 @@ public class Pixel {
     private final int y;
     private final Color color;
 
+    public Pixel(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.color = null;
+    }
+
     public Pixel(int x, int y, Color color) {
         this.x = x;
         this.y = y;
@@ -50,5 +56,14 @@ public class Pixel {
     @Override
     public int hashCode() {
         return Objects.hash(x, y, color);
+    }
+
+    @Override
+    public String toString() {
+        return "Pixel{" +
+                "x=" + x +
+                ", y=" + y +
+                ", color=" + color +
+                '}';
     }
 }

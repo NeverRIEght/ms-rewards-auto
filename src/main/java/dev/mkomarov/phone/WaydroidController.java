@@ -18,6 +18,7 @@ public class WaydroidController implements PhoneController {
     private Thread sessionThread;
 
     public void setWaydroidWindowWidth(int width) {
+        mouseController.resetMousePosition();
         executeCommand("waydroid session start", false, true);
         executeCommand("waydroid prop set persist.waydroid.width " + width, false, true);
         closeSession();
@@ -25,6 +26,7 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void launchSession() {
+        mouseController.resetMousePosition();
         Runnable session = () -> {
             executeCommand("waydroid session start");
             try {
@@ -54,7 +56,8 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void closeSession() {
-        mouseController.mouseMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+        mouseController.resetMousePosition();
+
         sessionThread.interrupt();
         executeCommand("waydroid session stop");
     }
@@ -75,7 +78,7 @@ public class WaydroidController implements PhoneController {
         } else if (statusString.contains("RUNNING")) {
             return Status.RUNNING;
         } else {
-            throw new RuntimeException("Unknown waydroid status");
+            throw new RuntimeException("Unknown waydroid status: " + statusString);
         }
     }
 
@@ -85,17 +88,18 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void openApp(String appName) {
+        mouseController.resetMousePosition();
         executeCommand("waydroid prop set persist.waydroid.fake_touch " + appName);
         executeCommand("waydroid app launch " + appName);
     }
 
     @Override
     public void doDailyNews() {
-
+        mouseController.resetMousePosition();
     }
 
     @Override
     public void doDailySearches(int amount) {
-
+        mouseController.resetMousePosition();
     }
 }

@@ -6,6 +6,7 @@ public interface MouseController {
 
     public void mouseMove(int x, int y);
     public void mouseMove(Direction direction, int pixels);
+    public void resetMousePosition();
     public void mouseClick();
     public void mouseDoubleClick();
     public void mouseRightClick();

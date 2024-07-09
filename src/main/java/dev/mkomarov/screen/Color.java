@@ -1,10 +1,12 @@
 package dev.mkomarov.screen;
 
+import java.util.Objects;
+
 public class Color {
     private int code;
 
     public Color(int code) {
-        this.code = code;
+        this.code = code & 0x00ffffff;
     }
 
     public Color(int red, int green, int blue) {
@@ -12,7 +14,7 @@ public class Color {
     }
 
     public void setColor(int code) {
-        this.code = code;
+        this.code = code & 0x00ffffff;
     }
 
     public int getColor() {
@@ -43,4 +45,25 @@ public class Color {
         return code & 0x000000ff;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Color color = (Color) o;
+        return (code & 0x00ffffff) == (color.code & 0x00ffffff);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(code & 0x00ffffff);
+    }
+
+    @Override
+    public String toString() {
+        return "Color{" +
+                "red=" + getRed() +
+                ", green=" + getGreen() +
+                ", blue=" + getBlue() +
+                '}';
+    }
 }

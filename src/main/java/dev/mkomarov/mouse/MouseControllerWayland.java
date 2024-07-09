@@ -4,6 +4,8 @@ import dev.mkomarov.TerminalController;
 
 import static dev.mkomarov.TerminalController.executeCommand;
 import static dev.mkomarov.TerminalController.getCommandLog;
+import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_HEIGHT;
+import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_WIDTH;
 
 public class MouseControllerWayland implements MouseController {
     private static final String GET_MOUSE_SPEED_COMMAND =
@@ -63,6 +65,12 @@ public class MouseControllerWayland implements MouseController {
     }
 
     @Override
+    public void resetMousePosition() {
+        // Storing cursor inside Waydroid window while session is active = system crash
+        mouseMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+    }
+
+    @Override
     public void mouseClick() {
         executeCommand("ydotool click 1", true, true);
     }
@@ -86,17 +94,17 @@ public class MouseControllerWayland implements MouseController {
     public void mouseScroll(Direction direction, int amount) {
         switch (direction) {
             case UP:
-                executeCommand("ydotool scroll up " + amount);
+                for (int i = 0; i < amount; i++) {
+                    executeCommand("ydotool click 4", true, true);
+                }
                 break;
             case DOWN:
-                executeCommand("ydotool scroll down " + amount);
+                for (int i = 0; i < amount; i++) {
+                    executeCommand("ydotool click 5", true, true);
+                }
                 break;
-            case LEFT:
-                executeCommand("ydotool scroll left " + amount);
-                break;
-            case RIGHT:
-                executeCommand("ydotool scroll right " + amount);
-                break;
+            default:
+                throw new IllegalArgumentException("Invalid scroll direction: " + direction);
         }
     }
 

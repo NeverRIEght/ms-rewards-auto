@@ -57,12 +57,20 @@ public class Main {
 
             phoneController.launchSession();
 
-            Thread.sleep(500);
-            Pixel topLeftCorner = screenController.findLastPixel(new Color(0, 0, 0));
+            Thread.sleep(1200);
+            Color black = new Color(0, 0, 0);
+            Pixel bottomRightCorner = screenController.findLastPixel(black);
 
-            // Storing cursor inside Waydroid window while session is active = system crash
-            mouseController.mouseMove(topLeftCorner.getX(), topLeftCorner.getY());
+            Pixel[] corners = screenController.findBorder(bottomRightCorner, black);
+            Pixel middle = screenController.findMiddlePixel(corners[0], corners[1]);
+
             Thread.sleep(10000);
+            phoneController.openApp("com.microsoft.bing");
+            Thread.sleep(5000);
+            mouseController.mouseMove(middle.getX(), middle.getY());
+            Thread.sleep(1000);
+            mouseController.mouseScroll(Direction.UP, 4);
+            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
