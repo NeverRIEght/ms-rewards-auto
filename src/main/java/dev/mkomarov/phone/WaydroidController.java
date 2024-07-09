@@ -63,7 +63,9 @@ public class WaydroidController implements PhoneController {
         String statusString = getCommandLog(executeCommand("waydroid status"));
 
         try {
-            Thread.sleep(1000);
+            do {
+                Thread.sleep(100);
+            } while (statusString.isEmpty());
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
