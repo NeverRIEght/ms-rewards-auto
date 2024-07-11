@@ -2,12 +2,21 @@ package dev.mkomarov.keyboard;
 
 import dev.mkomarov.terminal.TerminalController;
 
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import static dev.mkomarov.terminal.TerminalController.executeCommand;
 
 public class KeyboardControllerWayland implements KeyboardController {
     private static final int DEFAULT_KEY_DELAY = 10;
+    private static final String KEYCODES_FILE_PATH = Paths.get("").toAbsolutePath()
+            + File.separator + "src"
+            + File.separator + "main"
+            + File.separator + "resources"
+            + File.separator + "ydotool_codes.txt";
 
     @Override
     public void keyDown(int keyCode) {
@@ -25,7 +34,7 @@ public class KeyboardControllerWayland implements KeyboardController {
     @Override
     public void keyUp(int keyCode) {
         executeCommand("ydotool key "
-                + keyCode + ":0",
+                        + keyCode + ":0",
                 true,
                 false);
         try {
@@ -201,4 +210,26 @@ public class KeyboardControllerWayland implements KeyboardController {
         return result;
     }
 
+    private Map<String, Integer> getKeycodes() {
+        Map<String, Integer> keyCodes = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(KEYCODES_FILE_PATH))) {
+            String str;
+
+            while ((str = reader.readLine()) != null) {
+                if (str.isEmpty()) continue;
+
+                String[] parts = str.split(" ");
+                int keyCode = Integer.parseInt(parts[parts.length - 1]);
+                for (int i = 0; i < parts.length - 1; i++) {
+                    String keyName = parts[i];
+                    keyCodes.put(keyName, keyCode);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return keyCodes;
+    }
 }
