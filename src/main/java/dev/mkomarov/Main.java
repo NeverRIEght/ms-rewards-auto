@@ -57,7 +57,7 @@ public class Main {
 
             phoneController.launchSession();
 
-            Thread.sleep(1200);
+            Thread.sleep(1600);
             Color black = new Color(0, 0, 0);
             Pixel bottomRightCorner = screenController.findLastPixel(black);
 
@@ -68,8 +68,9 @@ public class Main {
             phoneController.openApp("com.microsoft.bing");
             Thread.sleep(5000);
             mouseController.mouseMove(middle.getX(), middle.getY());
+            System.out.println(middle.getX() + " " + middle.getY());
             Thread.sleep(1000);
-            mouseController.mouseScroll(Direction.DOWN, 4);
+            mouseController.mouseScroll(Direction.DOWN, 2);
             Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();

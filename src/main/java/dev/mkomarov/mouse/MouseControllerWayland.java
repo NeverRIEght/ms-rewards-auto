@@ -1,7 +1,5 @@
 package dev.mkomarov.mouse;
 
-import dev.mkomarov.TerminalController;
-
 import static dev.mkomarov.TerminalController.executeCommand;
 import static dev.mkomarov.TerminalController.getCommandLog;
 import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_HEIGHT;
