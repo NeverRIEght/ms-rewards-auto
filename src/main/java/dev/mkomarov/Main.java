@@ -69,7 +69,7 @@ public class Main {
             Thread.sleep(5000);
             mouseController.mouseMove(middle.getX(), middle.getY());
             Thread.sleep(1000);
-            mouseController.mouseScroll(Direction.UP, 4);
+            mouseController.mouseScroll(Direction.DOWN, 4);
             Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();

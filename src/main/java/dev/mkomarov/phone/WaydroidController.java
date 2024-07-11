@@ -26,7 +26,6 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void launchSession() {
-        mouseController.resetMousePosition();
         Runnable session = () -> {
             executeCommand("waydroid session start");
             try {

@@ -29,7 +29,7 @@ public class MouseControllerWayland implements MouseController {
         setMouseSpeed(DEFAULT_SPEED);
         setMouseAccelProfile(DEFAULT_ACCEL_PROFILE);
 
-        executeCommand("ydotool mousemove " + x + " " + y, true, true);
+        executeCommand("ydotool mousemove --absolute -x " + x + " -y " + y, true, true);
 
         setMouseSpeed(originalSpeed);
         setMouseAccelProfile(originalAccelProfileLog);
@@ -95,12 +95,12 @@ public class MouseControllerWayland implements MouseController {
         switch (direction) {
             case UP:
                 for (int i = 0; i < amount; i++) {
-                    executeCommand("ydotool click 4", true, true);
+                    executeCommand("ydotool mousemove -w -- 0 1", true, true);
                 }
                 break;
             case DOWN:
                 for (int i = 0; i < amount; i++) {
-                    executeCommand("ydotool click 5", true, true);
+                    executeCommand("ydotool mousemove -w -- 0 -1", true, true);
                 }
                 break;
             default:

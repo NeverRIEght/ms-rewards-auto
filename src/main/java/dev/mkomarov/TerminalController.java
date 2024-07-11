@@ -8,7 +8,27 @@ import java.io.InputStreamReader;
 import static dev.mkomarov.Main.ROOT_PASSWORD;
 
 public class TerminalController {
+    private static final String YDOTOOL_PATH = "/home/mkomarov/bin/ydotool/ydotool";
+    private static final String YDOTOOLD_PATH = "/home/mkomarov/bin/ydotool/ydotoold";
+
+    private static void preconfigureYdotool() {
+        executeCommand("export YDOTOOL_SOCKET=/tmp/.ydotool_socket");
+    }
+
+    private static String parseCommand(String command) {
+        if (command.startsWith("ydotoold")
+                || command.startsWith("echo " + ROOT_PASSWORD + " | sudo -S ydotoold")) {
+            command = command.replace("ydotoold", YDOTOOLD_PATH);
+        } else if (command.startsWith("ydotool")
+                || command.startsWith("echo " + ROOT_PASSWORD + " | sudo -S ydotool")) {
+            command = command.replace("ydotool", YDOTOOL_PATH);
+        }
+
+        return command;
+    }
+
     public static Process executeCommand(String command) {
+        command = parseCommand(command);
         try {
             ProcessBuilder pb = new ProcessBuilder("bash", "-c", command);
             return pb.start();
@@ -62,7 +82,9 @@ public class TerminalController {
     }
 
     public static Thread startYdotoolDaemon() {
+        preconfigureYdotool();
         Thread thread = new YdotoolDemonThread();
+        thread.setName("ydotoold");
         thread.setDaemon(true);
         thread.start();
         return thread;
@@ -71,13 +93,15 @@ public class TerminalController {
     private static class YdotoolDemonThread extends Thread implements Closeable {
         @Override
         public void run() {
-            executeCommand("ydotoold --socket-path=\"$HOME/.ydotool_socket\" --socket-own=\"$(id -u):$(id -g)\"", true, true);
+            executeCommand(YDOTOOLD_PATH, true, true);
             try {
                 while (!Thread.currentThread().isInterrupted()) {
+                    System.out.println("Ydotoold is running");
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                System.out.println("Ydotoold is interrupted");
+                this.close();
             } finally {
                 this.close();
             }
@@ -85,8 +109,11 @@ public class TerminalController {
 
         @Override
         public void close() {
+            System.out.println("Ydotoold is closing");
             try {
-                executeCommand("pkill ydotoold", true, true);
+                String command = "echo " + ROOT_PASSWORD + " | sudo -S " + "pkill ydotoold";
+                Process pr = new ProcessBuilder("bash", "-c", command).start();
+                printCommandLog(pr);
             } catch (Exception e) {
                 System.err.println("Could not close ydotoold process");
             }
