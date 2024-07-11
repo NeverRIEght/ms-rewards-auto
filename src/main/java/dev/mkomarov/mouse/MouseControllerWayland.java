@@ -1,7 +1,7 @@
 package dev.mkomarov.mouse;
 
-import static dev.mkomarov.TerminalController.executeCommand;
-import static dev.mkomarov.TerminalController.getCommandLog;
+import static dev.mkomarov.terminal.TerminalController.executeCommand;
+import static dev.mkomarov.terminal.TerminalController.getCommandLog;
 import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_HEIGHT;
 import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_WIDTH;
 
@@ -70,7 +70,13 @@ public class MouseControllerWayland implements MouseController {
 
     @Override
     public void mouseClick() {
-        executeCommand("ydotool click 1", true, true);
+        executeCommand("ydotool click 0x40", true, true);
+        try {
+            Thread.sleep(30);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        executeCommand("ydotool click 0x80", true, true);
     }
 
     @Override

@@ -5,10 +5,8 @@ import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
 
-import static dev.mkomarov.TerminalController.executeCommand;
-import static dev.mkomarov.TerminalController.getCommandLog;
-import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_HEIGHT;
-import static dev.mkomarov.screen.ScreenControllerWayland.SCREEN_WIDTH;
+import static dev.mkomarov.terminal.TerminalController.executeCommand;
+import static dev.mkomarov.terminal.TerminalController.getCommandLog;
 
 public class WaydroidController implements PhoneController {
     private static final ScreenController screenController = new ScreenControllerWayland();
@@ -68,6 +66,7 @@ public class WaydroidController implements PhoneController {
             do {
                 Thread.sleep(100);
             } while (statusString.isEmpty());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

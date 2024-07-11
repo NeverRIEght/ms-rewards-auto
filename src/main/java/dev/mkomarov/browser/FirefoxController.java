@@ -1,6 +1,6 @@
 package dev.mkomarov.browser;
 
-import dev.mkomarov.TerminalController;
+import dev.mkomarov.terminal.TerminalController;
 import dev.mkomarov.keyboard.KeyboardController;
 import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.MouseController;
@@ -12,13 +12,11 @@ import dev.mkomarov.screen.ScreenControllerWayland;
 import dev.mkomarov.search.SearchController;
 import dev.mkomarov.search.SearchControllerImpl;
 
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static dev.mkomarov.robot.RobotController.printWordWithRobot;
-import static dev.mkomarov.robot.RobotController.robot;
 import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 
 public class FirefoxController implements BrowserController {

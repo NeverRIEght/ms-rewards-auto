@@ -1,6 +1,6 @@
 package dev.mkomarov.screen;
 
-import dev.mkomarov.TerminalController;
+import dev.mkomarov.terminal.TerminalController;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

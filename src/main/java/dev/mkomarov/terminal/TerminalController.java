@@ -1,4 +1,4 @@
-package dev.mkomarov;
+package dev.mkomarov.terminal;
 
 import java.io.BufferedReader;
 import java.io.Closeable;

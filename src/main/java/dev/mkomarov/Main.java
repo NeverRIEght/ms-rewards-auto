@@ -13,6 +13,9 @@ import dev.mkomarov.screen.Color;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
+import dev.mkomarov.search.SearchController;
+import dev.mkomarov.search.SearchControllerImpl;
+import dev.mkomarov.terminal.TerminalController;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
@@ -41,6 +44,7 @@ public class Main {
     public static final MouseController mouseController = new MouseControllerWayland();
     public static final ScreenController screenController = new ScreenControllerWayland();
     public static final PhoneController phoneController = new WaydroidController();
+    public static final SearchController searchController = new SearchControllerImpl();
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Thread daemon = TerminalController.startYdotoolDaemon();
@@ -66,12 +70,36 @@ public class Main {
 
             Thread.sleep(10000);
             phoneController.openApp("com.microsoft.bing");
-            Thread.sleep(5000);
-            mouseController.mouseMove(middle.getX(), middle.getY());
-            System.out.println(middle.getX() + " " + middle.getY());
-            Thread.sleep(1000);
-            mouseController.mouseScroll(Direction.DOWN, 2);
             Thread.sleep(3000);
+
+            mouseController.mouseMove(middle.getX(), middle.getY() - 150);
+            Thread.sleep(500);
+            mouseController.mouseClick();
+            Thread.sleep(1500);
+
+            Random random = new Random();
+            try {
+                for (int i = 0; i < 20; i++) {
+                    String currentWord = searchController.getRandomWord();
+                    TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
+                    keyboardController.print(currentWord, 150, 400);
+                    TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+                    keyboardController.keyClick("enter");
+                    TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
+                    keyboardController.keyClick("esc");
+                    mouseController.mouseMove(middle.getX(), middle.getY() - 150);
+                    Thread.sleep(500);
+                    mouseController.mouseClick();
+                    Thread.sleep(1500);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Scroll to news from top
+//            Thread.sleep(1000);
+//            mouseController.mouseScroll(Direction.DOWN, 2);
+//            Thread.sleep(3000);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
