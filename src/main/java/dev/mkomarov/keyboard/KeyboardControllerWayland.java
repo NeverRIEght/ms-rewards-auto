@@ -1,10 +1,46 @@
 package dev.mkomarov.keyboard;
 
+import dev.mkomarov.terminal.TerminalController;
+
 import java.util.Random;
 
 import static dev.mkomarov.terminal.TerminalController.executeCommand;
 
 public class KeyboardControllerWayland implements KeyboardController {
+    private static final int DEFAULT_KEY_DELAY = 10;
+
+    @Override
+    public void keyDown(int keyCode) {
+        executeCommand("ydotool key "
+                        + keyCode + ":1",
+                true,
+                false);
+        try {
+            Thread.sleep(DEFAULT_KEY_DELAY);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void keyUp(int keyCode) {
+        executeCommand("ydotool key "
+                + keyCode + ":0",
+                true,
+                false);
+        try {
+            Thread.sleep(DEFAULT_KEY_DELAY);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void keyClick(int keyCode) {
+        keyDown(keyCode);
+        keyUp(keyCode);
+    }
+
     @Override
     public void keyClick(String validKey) {
         validKey = translateKey(validKey);
@@ -17,7 +53,7 @@ public class KeyboardControllerWayland implements KeyboardController {
     }
 
     @Override
-    public void printInstantly(String text) {
+    public void print(String text) {
         executeCommand("ydotool type --key-delay=0 '" + text + "'", true, false);
         try {
             Thread.sleep(10);
@@ -33,7 +69,7 @@ public class KeyboardControllerWayland implements KeyboardController {
         try {
             for (char c : chars) {
                 Thread.sleep(random.nextInt(minDelayMs, maxDelayMs));
-                printInstantly(String.valueOf(c));
+                print(String.valueOf(c));
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
