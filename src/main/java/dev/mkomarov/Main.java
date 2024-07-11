@@ -100,7 +100,7 @@ public class Main {
 //            Thread.sleep(1000);
 //            mouseController.mouseScroll(Direction.DOWN, 2);
 //            Thread.sleep(3000);
-
+keyboardController.print("https://rewards.bing.com/"); //
 
         } catch (Exception e) {
             e.printStackTrace();
