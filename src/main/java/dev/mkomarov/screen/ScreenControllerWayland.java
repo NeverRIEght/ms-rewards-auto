@@ -50,11 +50,13 @@ public class ScreenControllerWayland implements ScreenController {
     public Pixel findPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
-        Pixel pixelFound = null;
+        if (endX > SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
+        if (endY > SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
 
-        for (int y = 0; y < screenshot.getHeight(); y++) {
+        Pixel pixelFound = null;
+        for (int y = startY; y < endY; y++) {
             if (pixelFound != null) break;
-            for (int x = 0; x < screenshot.getWidth(); x++) {
+            for (int x = startX; x < endX; x++) {
                 if (pixelFound != null) break;
 
                 int thisColor = screenshot.getRGB(x, y);
@@ -84,11 +86,13 @@ public class ScreenControllerWayland implements ScreenController {
     public Pixel findLastPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
-        Pixel pixelFound = null;
+        if (endX > SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
+        if (endY > SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
 
-        for (int y = screenshot.getHeight() - 1; y >= 0; y--) {
+        Pixel pixelFound = null;
+        for (int y = endY; y >= startY; y--) {
             if (pixelFound != null) break;
-            for (int x = screenshot.getWidth() - 1; x >= 0; x--) {
+            for (int x = endX; x >= startX; x--) {
                 if (pixelFound != null) break;
 
                 int thisColor = screenshot.getRGB(x, y);
