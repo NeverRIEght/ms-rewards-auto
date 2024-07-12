@@ -47,6 +47,10 @@ public class ScreenControllerWayland implements ScreenController {
         return findPixel(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
+    public Pixel findPixel(Color color, Pixel startPixel, Pixel endPixel) {
+        return findPixel(color, startPixel.getX(), startPixel.getY(), endPixel.getX(), endPixel.getY());
+    }
+
     public Pixel findPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
@@ -81,6 +85,10 @@ public class ScreenControllerWayland implements ScreenController {
 
     public Pixel findLastPixel(Color color, int startX, int startY) {
         return findLastPixel(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    }
+
+    public Pixel findLastPixel(Color color, Pixel startPixel, Pixel endPixel) {
+        return findLastPixel(color, startPixel.getX(), startPixel.getY(), endPixel.getX(), endPixel.getY());
     }
 
     public Pixel findLastPixel(Color color, int startX, int startY, int endX, int endY) {
