@@ -11,8 +11,12 @@ import dev.mkomarov.screen.ScreenControllerWayland;
 import dev.mkomarov.search.SearchController;
 import dev.mkomarov.search.SearchControllerImpl;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Random;
 
 import static dev.mkomarov.terminal.TerminalController.executeCommand;
@@ -167,6 +171,36 @@ public class WaydroidController implements PhoneController {
 //            doDailySearches(screenCenter, 20);
 //            Thread.sleep(2000);
 
+//            Color white = new Color(255, 255, 255);
+//            Pixel topLeftCornerOfNavBar = screenController.findPixel(white, corners[0].getX(), corners[0].getY() + 700, corners[1].getX(), corners[1].getY());
+//            System.out.println("Top left corner of nav bar: " + topLeftCornerOfNavBar);
+
+            Color grey = new Color(136, 136, 136);
+            Pixel tabsPixel = screenController.findLastPixel(grey, corners[0], corners[1]);
+            System.out.println("Tabs pixel: " + tabsPixel);
+            mouseController.mouseMove(tabsPixel.getX(), tabsPixel.getY());
+            Thread.sleep(100);
+            mouseController.mouseClick();
+            Thread.sleep(2000);
+
+            BufferedImage screenshot = screenController.takeScreenshot();
+            BufferedImage waydroidScreenshot = screenshot.getSubimage(0, 0, corners[1].getX(), corners[1].getY());
+
+            BufferedImage rewardsImage;
+
+            try {
+                rewardsImage = ImageIO.read(new File("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/rewards.png"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            Pixel rewardsPixel = screenController.findImageOnImage(rewardsImage, waydroidScreenshot);
+
+            mouseController.mouseMove(rewardsPixel.getX(), rewardsPixel.getY());
+            Thread.sleep(100);
+            mouseController.mouseClick();
+
+            Thread.sleep(10000);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

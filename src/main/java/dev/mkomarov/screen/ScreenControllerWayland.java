@@ -185,7 +185,7 @@ public class ScreenControllerWayland implements ScreenController {
 
                 BufferedImage subImage = imageToSearchOn.getSubimage(x, y, imageToSearchFor.getWidth(), imageToSearchFor.getHeight());
                 if (compareImages(subImage, imageToSearchFor)) {
-                    return new Pixel(x + (imageToSearchFor.getWidth() / 2), y + (imageToSearchFor.getHeight() / 2));
+                    return new Pixel(x + subImage.getWidth() / 2, y + subImage.getHeight() / 2);
                 }
             }
         }
