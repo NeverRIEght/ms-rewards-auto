@@ -126,7 +126,19 @@ public class WaydroidController implements PhoneController {
     public void openApp(String appName) {
         mouseController.resetMousePosition();
         executeCommand("waydroid prop set persist.waydroid.fake_touch " + appName);
+
+        BufferedImage initialState = screenController.takeScreenshot();
         executeCommand("waydroid app launch " + appName);
+
+        boolean isAppOpened = screenController.waitForScreenChange(
+                initialState,
+                "App " + appName + " opened",
+                5,
+                100);
+
+        if (!isAppOpened) {
+            throw new RuntimeException("Failed to open app " + appName);
+        }
     }
 
     @Override
