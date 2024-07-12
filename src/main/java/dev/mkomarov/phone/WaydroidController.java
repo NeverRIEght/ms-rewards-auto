@@ -31,19 +31,6 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void launchSession() {
-//        Runnable session = () -> {
-//            executeCommand("waydroid session start");
-//            try {
-//                while (!Thread.currentThread().isInterrupted()) {
-//                    Thread.sleep(1000);
-//                }
-//            } catch (InterruptedException ignored) {
-//                System.out.println("Waydroid session interrupted");
-//            } finally {
-//                closeSession();
-//            }
-//        };
-
         sessionThread = new WaydroidSessionDaemonThread();
         sessionThread.setDaemon(true);
         sessionThread.start();
