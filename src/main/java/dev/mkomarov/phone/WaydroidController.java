@@ -24,13 +24,17 @@ public class WaydroidController implements PhoneController {
 
     public void setWaydroidWindowWidth(int width) {
         mouseController.resetMousePosition();
-        executeCommand("waydroid session start", false, true);
+        sessionThread = new WaydroidSessionDaemonThread();
+        sessionThread.setDaemon(true);
+        sessionThread.start();
+
         executeCommand("waydroid prop set persist.waydroid.width " + width, false, true);
         closeSession();
     }
 
     @Override
     public void launchSession() {
+        setWaydroidWindowWidth(WAYDROID_WINDOW_WIDTH);
         sessionThread = new WaydroidSessionDaemonThread();
         sessionThread.setDaemon(true);
         sessionThread.start();
