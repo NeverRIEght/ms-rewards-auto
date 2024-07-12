@@ -1,19 +1,26 @@
 package dev.mkomarov.phone;
 
+import dev.mkomarov.keyboard.KeyboardController;
+import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.screen.Color;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
+import dev.mkomarov.search.SearchController;
+import dev.mkomarov.search.SearchControllerImpl;
 
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
+import java.util.Random;
 
 import static dev.mkomarov.terminal.TerminalController.executeCommand;
 import static dev.mkomarov.terminal.TerminalController.getCommandLog;
 
 public class WaydroidController implements PhoneController {
+    private static final SearchController searchController = new SearchControllerImpl();
+    private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final ScreenController screenController = new ScreenControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
     public static final String BING_APP_PACKAGE_NAME = "com.microsoft.bing";
@@ -150,12 +157,15 @@ public class WaydroidController implements PhoneController {
             Pixel bottomRightCorner = screenController.findLastPixel(black);
 
             Pixel[] corners = screenController.findBorder(bottomRightCorner, black);
-            Pixel screenMiddle = screenController.findMiddlePixel(corners[0], corners[1]);
+            Pixel screenCenter = screenController.findMiddlePixel(corners[0], corners[1]);
 
             Thread.sleep(10000);
 
-            openApp("com.microsoft.bing");
+            openApp(BING_APP_PACKAGE_NAME);
             Thread.sleep(2000);
+
+//            doDailySearches(screenCenter, 20);
+//            Thread.sleep(2000);
 
 
         } catch (InterruptedException e) {
@@ -169,8 +179,26 @@ public class WaydroidController implements PhoneController {
     }
 
     @Override
-    public void doDailySearches(int amount) {
-
+    public void doDailySearches(Pixel screenCenter, int amount) {
+        Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
+        Random random = new Random();
+        try {
+            for (int i = 0; i < 20; i++) {
+                String currentWord = searchController.getRandomWord();
+                Thread.sleep(random.nextInt(1000, 2000));
+                keyboardController.print(currentWord, 150, 400);
+                Thread.sleep(random.nextInt(300, 500));
+                keyboardController.keyClick("enter");
+                Thread.sleep(random.nextInt(2000, 3000));
+                keyboardController.keyClick("esc");
+                mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
+                Thread.sleep(500);
+                mouseController.mouseClick();
+                Thread.sleep(1500);
+            }
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

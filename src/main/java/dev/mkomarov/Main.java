@@ -63,32 +63,6 @@ public class Main {
 
             phoneController.doDaily();
 
-
-//
-//            mouseController.mouseMove(middle.getX(), middle.getY() - 150);
-//            Thread.sleep(500);
-//            mouseController.mouseClick();
-//            Thread.sleep(1500);
-//
-//            Random random = new Random();
-//            try {
-//                for (int i = 0; i < 20; i++) {
-//                    String currentWord = searchController.getRandomWord();
-//                    TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
-//                    keyboardController.print(currentWord, 150, 400);
-//                    TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
-//                    keyboardController.keyClick("enter");
-//                    TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
-//                    keyboardController.keyClick("esc");
-//                    mouseController.mouseMove(middle.getX(), middle.getY() - 150);
-//                    Thread.sleep(500);
-//                    mouseController.mouseClick();
-//                    Thread.sleep(1500);
-//                }
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-
             // Scroll to news from top
 //            Thread.sleep(1000);
 //            mouseController.mouseScroll(Direction.DOWN, 2);
