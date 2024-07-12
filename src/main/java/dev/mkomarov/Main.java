@@ -100,13 +100,22 @@ public class Main {
 //            Thread.sleep(1000);
 //            mouseController.mouseScroll(Direction.DOWN, 2);
 //            Thread.sleep(3000);
-keyboardController.print("https://rewards.bing.com/"); //
+
+            browserController.launchBrowser();
+            Thread.sleep(500);
+            browserController.createNewTab();
+            Thread.sleep(500);
+            browserController.navigateTo("https://rewards.bing.com/");
+            Thread.sleep(5000);
+            browserController.closeTab();
+
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
 //            phoneController.closeSession();
             daemon.interrupt();
+            daemon.join();
         }
     }
 

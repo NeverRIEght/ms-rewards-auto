@@ -59,11 +59,11 @@ public class TerminalController {
 
             String s;
             while ((s = stdInput.readLine()) != null) {
-                log.append(s);
+                log.append(s).append("\n");
             }
 
             while ((s = stdError.readLine()) != null) {
-                log.append(s);
+                log.append(s).append("\n");
             }
 
             process.waitFor();
@@ -83,25 +83,25 @@ public class TerminalController {
 
     public static Thread startYdotoolDaemon() {
         preconfigureYdotool();
-        Thread thread = new YdotoolDemonThread();
+        Thread thread = new YdotoolDaemonThread();
         thread.setName("ydotoold");
-        thread.setDaemon(true);
         thread.start();
+        System.out.println("Ydotoold thread started");
         return thread;
     }
 
-    private static class YdotoolDemonThread extends Thread implements Closeable {
+    private static class YdotoolDaemonThread extends Thread implements Closeable {
+        private Process process;
+
         @Override
         public void run() {
-            executeCommand(YDOTOOLD_PATH, true, true);
+            process = executeCommand(YDOTOOLD_PATH  + " &> /dev/null &", true, true);
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    System.out.println("Ydotoold is running");
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
                 System.out.println("Ydotoold is interrupted");
-                this.close();
             } finally {
                 this.close();
             }
@@ -109,13 +109,16 @@ public class TerminalController {
 
         @Override
         public void close() {
-            System.out.println("Ydotoold is closing");
+            System.out.println("Ydotoold is closing...");
             try {
-                String command = "echo " + ROOT_PASSWORD + " | sudo -S " + "pkill ydotoold";
-                Process pr = new ProcessBuilder("bash", "-c", command).start();
-                printCommandLog(pr);
+                if (process != null) {
+                    process.destroy();
+                    process.waitFor();
+                    System.out.println("Ydotoold is closed.");
+                }
             } catch (Exception e) {
                 System.err.println("Could not close ydotoold process");
+                e.printStackTrace();
             }
         }
     }

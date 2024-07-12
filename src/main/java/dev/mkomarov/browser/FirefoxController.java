@@ -61,7 +61,7 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void navigateTo(String url) {
-        keyboardController.print(url);
+        keyboardController.print(url, 30, 50);
         keyboardController.keyClick("enter");
     }
 
