@@ -102,12 +102,13 @@ public class Main {
 //            Thread.sleep(3000);
 
             browserController.launchBrowser();
-            Thread.sleep(500);
-            browserController.createNewTab();
-            Thread.sleep(500);
-            browserController.navigateTo("https://rewards.bing.com/");
+//            Thread.sleep(500);
+//            browserController.createNewTab();
+//            Thread.sleep(500);
+//            browserController.navigateTo("https://rewards.bing.com/");
             Thread.sleep(5000);
-            browserController.closeTab();
+//            browserController.closeTab();
+            browserController.closeBrowser();
 
 
         } catch (Exception e) {

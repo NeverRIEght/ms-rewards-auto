@@ -12,6 +12,7 @@ import dev.mkomarov.screen.ScreenControllerWayland;
 import dev.mkomarov.search.SearchController;
 import dev.mkomarov.search.SearchControllerImpl;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,8 @@ public class FirefoxController implements BrowserController {
     private static final ScreenController screenController = new ScreenControllerWayland();
     private static final SearchController searchController = new SearchControllerImpl();
 
+    private static final int LAUNCH_ATTEMPTS = 10;
+    private static final int CLOSE_ATTEMPTS = 10;
     private static final Color SEARCH_SELECTION_COLOR = new Color(56, 216, 120);
 
     static {
@@ -40,13 +43,45 @@ public class FirefoxController implements BrowserController {
     }
 
     @Override
-    public void launchBrowser() throws IOException {
+    public void launchBrowser() {
+        BufferedImage initialState = screenController.takeScreenshot();
         TerminalController.executeCommand(LAUNCH_FIREFOX_COMMAND);
+        boolean isLaunched = screenController.waitForScreenChange(
+                initialState,
+                "Firefox launched",
+                LAUNCH_ATTEMPTS,
+                100);
+        if (!isLaunched) {
+            System.out.println("Failed to launch Firefox");
+        }
     }
 
     @Override
     public void closeBrowser() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        BufferedImage initialState = screenController.takeScreenshot();
+        keyboardController.keyClick("ctrl+q");
+        boolean isClosureWindowAppeared = screenController.waitForScreenChange(
+                initialState,
+                "Firefox closure window appeared",
+                CLOSE_ATTEMPTS,
+                100);
+
+        if (!isClosureWindowAppeared) {
+            System.out.println("Failed to close Firefox");
+            return;
+        }
+
+        initialState = screenController.takeScreenshot();
+        keyboardController.keyClick("enter");
+        boolean isFirefoxClosed = screenController.waitForScreenChange(
+                initialState,
+                "Firefox closed",
+                CLOSE_ATTEMPTS,
+                100);
+
+        if (!isFirefoxClosed) {
+            System.out.println("Failed to close Firefox");
+        }
     }
 
     @Override
