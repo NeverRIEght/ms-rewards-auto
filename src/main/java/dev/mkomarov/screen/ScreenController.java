@@ -12,12 +12,13 @@ public interface ScreenController {
     public Pixel findLastPixel(Color color, int startX, int startY);
     public Pixel findLastPixel(Color color, Pixel startPixel, Pixel endPixel);
     public Pixel findLastPixel(Color color, int startX, int startY, int endX, int endY);
+    public Pixel findMiddlePixel(Pixel startPixel, Pixel endPixel);
     public Color getPixelColor(int x, int y);
     public Color getPixelColor(BufferedImage screenshot, int x, int y);
     public Pixel[] findBorder(Pixel startPixel);
     public Pixel[] findBorder(Pixel startPixel, Color borderColor);
     public Pixel[] findBorder(BufferedImage screenshot, Pixel startPixel, Color borderColor);
-    public Pixel findMiddlePixel(Pixel startPixel, Pixel endPixel);
+    public Pixel findImageOnImage(BufferedImage imageToSearchFor, BufferedImage imageToSearchOn);
     public boolean compareImages(BufferedImage image1, BufferedImage image2);
     public boolean waitForScreenChange(BufferedImage initialState, String actionName, int attempts, int delay);
 }

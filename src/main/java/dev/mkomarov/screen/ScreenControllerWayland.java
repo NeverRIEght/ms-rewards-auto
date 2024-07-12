@@ -119,6 +119,13 @@ public class ScreenControllerWayland implements ScreenController {
         return pixelFound;
     }
 
+    public Pixel findMiddlePixel(Pixel startPixel, Pixel endPixel) {
+        return new Pixel(
+                (startPixel.getX() + endPixel.getX()) / 2,
+                (startPixel.getY() + endPixel.getY()) / 2
+        );
+    }
+
     public Color getPixelColor(int x, int y) {
         BufferedImage screenshot = takeScreenshot();
         return getPixelColor(screenshot, x, y);
@@ -168,11 +175,22 @@ public class ScreenControllerWayland implements ScreenController {
         return new Pixel[]{topLeftPixel, bottomRightPixel};
     }
 
-    public Pixel findMiddlePixel(Pixel startPixel, Pixel endPixel) {
-        return new Pixel(
-                (startPixel.getX() + endPixel.getX()) / 2,
-                (startPixel.getY() + endPixel.getY()) / 2
-        );
+    @Override
+    public Pixel findImageOnImage(BufferedImage imageToSearchFor, BufferedImage imageToSearchOn) {
+        for (int y = 0; y < imageToSearchOn.getHeight(); y++) {
+            for (int x = 0; x < imageToSearchOn.getWidth(); x++) {
+                if (x + imageToSearchFor.getWidth() > imageToSearchOn.getWidth() || y + imageToSearchFor.getHeight() > imageToSearchOn.getHeight()) {
+                    break;
+                }
+
+                BufferedImage subImage = imageToSearchOn.getSubimage(x, y, imageToSearchFor.getWidth(), imageToSearchFor.getHeight());
+                if (compareImages(subImage, imageToSearchFor)) {
+                    return new Pixel(x + (imageToSearchFor.getWidth() / 2), y + (imageToSearchFor.getHeight() / 2));
+                }
+            }
+        }
+
+        return null;
     }
 
     public boolean compareImages(BufferedImage image1, BufferedImage image2) {
