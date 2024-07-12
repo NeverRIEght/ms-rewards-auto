@@ -40,18 +40,18 @@ public class ScreenControllerWayland implements ScreenController {
     }
 
     public Pixel findPixel(Color color) {
-        return findPixel(color, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return findPixel(color, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
     public Pixel findPixel(Color color, int startX, int startY) {
-        return findPixel(color, startX, startY, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return findPixel(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
     public Pixel findPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
-        if (endX > SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
-        if (endY > SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
+        if (endX >= SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
+        if (endY >= SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
 
         Pixel pixelFound = null;
         for (int y = startY; y < endY; y++) {
@@ -76,18 +76,18 @@ public class ScreenControllerWayland implements ScreenController {
     }
 
     public Pixel findLastPixel(Color color) {
-        return findLastPixel(color, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return findLastPixel(color, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
     public Pixel findLastPixel(Color color, int startX, int startY) {
-        return findLastPixel(color, startX, startY, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return findLastPixel(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
     public Pixel findLastPixel(Color color, int startX, int startY, int endX, int endY) {
         BufferedImage screenshot = takeScreenshot();
 
-        if (endX > SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
-        if (endY > SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
+        if (endX >= SCREEN_WIDTH) throw new IllegalArgumentException("endX is out of bounds: " + endX);
+        if (endY >= SCREEN_HEIGHT) throw new IllegalArgumentException("endY is out of bounds: " + endY);
 
         Pixel pixelFound = null;
         for (int y = endY; y >= startY; y--) {
