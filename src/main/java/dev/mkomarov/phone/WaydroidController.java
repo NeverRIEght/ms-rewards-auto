@@ -130,13 +130,23 @@ public class WaydroidController implements PhoneController {
     }
 
     @Override
-    public void doDailyNews() {
-        mouseController.resetMousePosition();
+    public void doDaily() {
+
+    }
+
+    @Override
+    public void collectDailyBonus() {
+
     }
 
     @Override
     public void doDailySearches(int amount) {
-        mouseController.resetMousePosition();
+
+    }
+
+    @Override
+    public void doDailyNews() {
+
     }
 
     private static class WaydroidSessionDaemonThread extends Thread implements Closeable {
