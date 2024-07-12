@@ -59,7 +59,7 @@ public class Main {
 //        browserController.doDailySites();
 //        browserController.doDailySearches(30);
 //
-//            phoneController.launchSession();
+            phoneController.launchSession();
 //
 //            Thread.sleep(1600);
 //            Color black = new Color(0, 0, 0);
@@ -68,7 +68,7 @@ public class Main {
 //            Pixel[] corners = screenController.findBorder(bottomRightCorner, black);
 //            Pixel middle = screenController.findMiddlePixel(corners[0], corners[1]);
 //
-//            Thread.sleep(10000);
+            Thread.sleep(10000);
 //            phoneController.openApp("com.microsoft.bing");
 //            Thread.sleep(3000);
 //
@@ -101,20 +101,20 @@ public class Main {
 //            mouseController.mouseScroll(Direction.DOWN, 2);
 //            Thread.sleep(3000);
 
-            browserController.launchBrowser();
+//            browserController.launchBrowser();
 //            Thread.sleep(500);
 //            browserController.createNewTab();
 //            Thread.sleep(500);
 //            browserController.navigateTo("https://rewards.bing.com/");
-            Thread.sleep(5000);
+//            Thread.sleep(5000);
 //            browserController.closeTab();
-            browserController.closeBrowser();
+//            browserController.closeBrowser();
 
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-//            phoneController.closeSession();
+            phoneController.closeSession();
             daemon.interrupt();
             daemon.join();
         }
