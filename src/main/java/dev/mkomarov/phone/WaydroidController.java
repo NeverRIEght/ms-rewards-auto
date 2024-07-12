@@ -2,6 +2,8 @@ package dev.mkomarov.phone;
 
 import dev.mkomarov.mouse.MouseController;
 import dev.mkomarov.mouse.MouseControllerWayland;
+import dev.mkomarov.screen.Color;
+import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
 import dev.mkomarov.screen.ScreenControllerWayland;
 
@@ -143,7 +145,22 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void doDaily() {
+        try {
+            Color black = new Color(0, 0, 0);
+            Pixel bottomRightCorner = screenController.findLastPixel(black);
 
+            Pixel[] corners = screenController.findBorder(bottomRightCorner, black);
+            Pixel screenMiddle = screenController.findMiddlePixel(corners[0], corners[1]);
+
+            Thread.sleep(10000);
+
+            openApp("com.microsoft.bing");
+            Thread.sleep(2000);
+
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
