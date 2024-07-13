@@ -11,12 +11,8 @@ import dev.mkomarov.screen.ScreenControllerWayland;
 import dev.mkomarov.search.SearchController;
 import dev.mkomarov.search.SearchControllerImpl;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.Random;
 
 import static dev.mkomarov.terminal.TerminalController.executeCommand;
@@ -168,62 +164,11 @@ public class WaydroidController implements PhoneController {
             openApp(BING_APP_PACKAGE_NAME);
             Thread.sleep(2000);
 
-//            doDailySearches(screenCenter, 20);
-//            Thread.sleep(2000);
-
-//            Color white = new Color(255, 255, 255);
-//            Pixel topLeftCornerOfNavBar = screenController.findPixel(white, corners[0].getX(), corners[0].getY() + 700, corners[1].getX(), corners[1].getY());
-//            System.out.println("Top left corner of nav bar: " + topLeftCornerOfNavBar);
-
-            // Collect daily bonus:
-            Color grey = new Color(136, 136, 136);
-            Pixel tabsPixel = screenController.findLastPixel(grey, corners[0], corners[1]);
-            System.out.println("Tabs pixel: " + tabsPixel);
-            mouseController.mouseMove(tabsPixel.getX(), tabsPixel.getY());
-            Thread.sleep(100);
-            mouseController.mouseClick();
+            doDailySearches(screenCenter, 20);
             Thread.sleep(2000);
 
-            BufferedImage screenshot = screenController.takeScreenshot();
-            BufferedImage waydroidScreenshot = screenshot.getSubimage(0, 0, corners[1].getX(), corners[1].getY());
-
-            BufferedImage rewardsImage;
-
-            try {
-                rewardsImage = ImageIO.read(new File("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/rewards.png"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            Pixel rewardsPixel = screenController.findImageOnImage(rewardsImage, waydroidScreenshot);
-
-            mouseController.mouseMove(rewardsPixel.getX(), rewardsPixel.getY());
-            Thread.sleep(100);
-            mouseController.mouseClick();
-            Thread.sleep(10000);
-
-            screenshot = screenController.takeScreenshot();
-            waydroidScreenshot = screenshot.getSubimage(0, 0, corners[1].getX(), corners[1].getY());
-
-            BufferedImage dailyBonusImage;
-
-            try {
-                dailyBonusImage = ImageIO.read(new File("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/daily_bonus.png"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-            Pixel dailyBonusPixel = screenController.findImageOnImage(dailyBonusImage, waydroidScreenshot);
-
-            mouseController.mouseMove(dailyBonusPixel.getX(), dailyBonusPixel.getY());
-            Thread.sleep(100);
-            mouseController.mouseClick();
+            collectDailyBonus();
             Thread.sleep(2000);
-
-            keyboardController.keyClick("esc");
-
-            Thread.sleep(30000);
-
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -231,14 +176,43 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void collectDailyBonus() {
+        try {
+            BufferedImage appsButtonImage = screenController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/apps_button.png");
+            screenController.findImageAndClick(appsButtonImage);
+            Thread.sleep(2000);
 
+            BufferedImage rewardsImage = screenController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/rewards.png");
+            screenController.findImageAndClick(rewardsImage);
+            Thread.sleep(10000);
+
+
+            BufferedImage dailyBonusImage = screenController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/daily_bonus.png");
+            boolean isDailyBonusAvailable = screenController.findImageAndClick(dailyBonusImage);
+
+            if (!isDailyBonusAvailable) {
+                System.out.println("Daily bonus is not available");
+            } else {
+                System.out.println("Daily bonus collected");
+            }
+
+            Thread.sleep(2000);
+
+            BufferedImage homeButtonImage = screenController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/home_button.png");
+            screenController.findImageAndClick(homeButtonImage);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void doDailySearches(Pixel screenCenter, int amount) {
-        Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
         Random random = new Random();
         try {
+            Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
+            mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
+            Thread.sleep(500);
+            mouseController.mouseClick();
+            Thread.sleep(1500);
             for (int i = 0; i < 20; i++) {
                 String currentWord = searchController.getRandomWord();
                 Thread.sleep(random.nextInt(1000, 2000));

@@ -1,5 +1,7 @@
 package dev.mkomarov.screen;
 
+import dev.mkomarov.mouse.MouseController;
+import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.terminal.TerminalController;
 
 import javax.imageio.ImageIO;
@@ -9,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ScreenControllerWayland implements ScreenController {
+    public final MouseController mouseController = new MouseControllerWayland();
     public static final int SCREEN_WIDTH = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
     public static final int SCREEN_HEIGHT = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight();
 
@@ -31,7 +34,7 @@ public class ScreenControllerWayland implements ScreenController {
         return image;
     }
 
-    private static BufferedImage getImageFromPath(String path) {
+    public BufferedImage getImageFromPath(String path) {
         try {
             return ImageIO.read(new File(path));
         } catch (IOException e) {
@@ -191,6 +194,24 @@ public class ScreenControllerWayland implements ScreenController {
         }
 
         return null;
+    }
+
+    @Override
+    public boolean findImageAndClick(BufferedImage imageToSearchFor) {
+        BufferedImage screenshot = takeScreenshot();
+        Pixel imageCenter = findImageOnImage(imageToSearchFor, screenshot);
+        if (imageCenter != null) {
+            mouseController.mouseMove(imageCenter.getX(), imageCenter.getY());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            mouseController.mouseClick();
+            return true;
+        }
+
+        return false;
     }
 
     public boolean compareImages(BufferedImage image1, BufferedImage image2) {

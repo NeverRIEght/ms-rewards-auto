@@ -19,6 +19,8 @@ public interface ScreenController {
     public Pixel[] findBorder(Pixel startPixel, Color borderColor);
     public Pixel[] findBorder(BufferedImage screenshot, Pixel startPixel, Color borderColor);
     public Pixel findImageOnImage(BufferedImage imageToSearchFor, BufferedImage imageToSearchOn);
+    public boolean findImageAndClick(BufferedImage imageToSearchFor);
     public boolean compareImages(BufferedImage image1, BufferedImage image2);
     public boolean waitForScreenChange(BufferedImage initialState, String actionName, int attempts, int delay);
+    public BufferedImage getImageFromPath(String path);
 }

@@ -46,28 +46,24 @@ public class Main {
     public static final PhoneController phoneController = new WaydroidController();
     public static final SearchController searchController = new SearchControllerImpl();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         Thread daemon = TerminalController.startYdotoolDaemon();
         try {
-//        browserController.launchBrowser();
-//        TimeUnit.MILLISECONDS.sleep(2000);
-//        browserController.createNewTab();
-//        TimeUnit.MILLISECONDS.sleep(200);
-//        browserController.navigateTo("https://rewards.bing.com/");
-//        TimeUnit.MILLISECONDS.sleep(5000);
-//
-//        browserController.doDailySites();
-//        browserController.doDailySearches(30);
-//
+            browserController.launchBrowser();
+            TimeUnit.MILLISECONDS.sleep(2000);
+            browserController.createNewTab();
+            TimeUnit.MILLISECONDS.sleep(200);
+            browserController.navigateTo("https://rewards.bing.com/");
+            TimeUnit.MILLISECONDS.sleep(5000);
+
+            browserController.doDailySites();
+            browserController.doDailySearches(30);
+
+            browserController.closeBrowser();
+
             phoneController.launchSession();
 
             phoneController.doDaily();
-
-            // Scroll to news from top
-//            Thread.sleep(1000);
-//            mouseController.mouseScroll(Direction.DOWN, 2);
-//            Thread.sleep(3000);
-
 
 
         } catch (Exception e) {
