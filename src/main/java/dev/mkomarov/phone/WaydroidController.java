@@ -175,6 +175,7 @@ public class WaydroidController implements PhoneController {
 //            Pixel topLeftCornerOfNavBar = screenController.findPixel(white, corners[0].getX(), corners[0].getY() + 700, corners[1].getX(), corners[1].getY());
 //            System.out.println("Top left corner of nav bar: " + topLeftCornerOfNavBar);
 
+            // Collect daily bonus:
             Color grey = new Color(136, 136, 136);
             Pixel tabsPixel = screenController.findLastPixel(grey, corners[0], corners[1]);
             System.out.println("Tabs pixel: " + tabsPixel);
@@ -199,8 +200,29 @@ public class WaydroidController implements PhoneController {
             mouseController.mouseMove(rewardsPixel.getX(), rewardsPixel.getY());
             Thread.sleep(100);
             mouseController.mouseClick();
-
             Thread.sleep(10000);
+
+            screenshot = screenController.takeScreenshot();
+            waydroidScreenshot = screenshot.getSubimage(0, 0, corners[1].getX(), corners[1].getY());
+
+            BufferedImage dailyBonusImage;
+
+            try {
+                dailyBonusImage = ImageIO.read(new File("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/daily_bonus.png"));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            Pixel dailyBonusPixel = screenController.findImageOnImage(dailyBonusImage, waydroidScreenshot);
+
+            mouseController.mouseMove(dailyBonusPixel.getX(), dailyBonusPixel.getY());
+            Thread.sleep(100);
+            mouseController.mouseClick();
+            Thread.sleep(2000);
+
+            keyboardController.keyClick("esc");
+
+            Thread.sleep(30000);
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
