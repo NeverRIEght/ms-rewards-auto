@@ -9,7 +9,7 @@ public final class RandomProvider {
         throw new IllegalStateException("Utility class");
     }
 
-    public static int getRandomInt(int max) {
-        return random.nextInt(max);
+    public static Random getRandom() {
+        return random;
     }
 }

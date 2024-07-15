@@ -6,13 +6,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static dev.mkomarov.random.RandomProvider.getRandomInt;
+import static dev.mkomarov.random.RandomProvider.getRandom;
 
 public class SearchControllerImpl implements SearchController {
     @Override
     public String getRandomWord() {
         List<String> words = getWordsList();
-        return words.get(getRandomInt(words.size()));
+        return words.get(getRandom().nextInt(words.size()));
     }
 
     @Override

@@ -1,5 +1,8 @@
 package dev.mkomarov.browser;
 
+import dev.mkomarov.image.ImageController;
+import dev.mkomarov.image.ImageControllerWayland;
+import dev.mkomarov.random.RandomProvider;
 import dev.mkomarov.terminal.TerminalController;
 import dev.mkomarov.keyboard.KeyboardController;
 import dev.mkomarov.keyboard.KeyboardControllerWayland;
@@ -13,12 +16,8 @@ import dev.mkomarov.search.SearchController;
 import dev.mkomarov.search.SearchControllerImpl;
 
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
-import static dev.mkomarov.robot.RobotController.printWordWithRobot;
-import static dev.mkomarov.screen.ScreenControllerRobot.findPixel;
 
 public class FirefoxController implements BrowserController {
     public static final String LAUNCH_FIREFOX_COMMAND;
@@ -26,6 +25,7 @@ public class FirefoxController implements BrowserController {
     private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
     private static final ScreenController screenController = new ScreenControllerWayland();
+    private static final ImageController imageController = new ImageControllerWayland();
     private static final SearchController searchController = new SearchControllerImpl();
 
     private static final int LAUNCH_ATTEMPTS = 10;
@@ -113,7 +113,7 @@ public class FirefoxController implements BrowserController {
 
             Thread.sleep(1000);
 
-            Pixel pixelFound = screenController.findPixel(SEARCH_SELECTION_COLOR, 0, 0);
+            Pixel pixelFound = imageController.findPixelByColor(SEARCH_SELECTION_COLOR, 0, 0);
 
             if (pixelFound == null) throw new RuntimeException("Pixel not found");
             return pixelFound;
@@ -153,7 +153,7 @@ public class FirefoxController implements BrowserController {
 
     @Override
     public void doDailySearches(int amount) {
-        Random random = new Random();
+        Random random = RandomProvider.getRandom();
         try {
             for (int i = 0; i < amount; i++) {
                 String currentWord = searchController.getRandomWord();
