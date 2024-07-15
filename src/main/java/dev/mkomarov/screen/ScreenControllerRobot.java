@@ -1,5 +1,8 @@
 package dev.mkomarov.screen;
 
+import dev.mkomarov.image.ImageController;
+import dev.mkomarov.mouse.MouseController;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,14 +11,23 @@ import java.io.IOException;
 
 import static dev.mkomarov.robot.RobotController.robot;
 
-public class ScreenControllerRobot {
-    private ScreenControllerRobot() {
-        throw new IllegalStateException("Utility class");
+public class ScreenControllerRobot implements ScreenController {
+
+    private static Robot robot;
+
+    static {
+        try {
+            robot = new Robot();
+        } catch (AWTException e) {
+            throw new RuntimeException(e);
+        }
     }
+
 
     public static Pixel findPixel(Color color) {
         return findPixel(color, 0, 0, 1920, 1080);
     }
+
 
     public static Pixel findPixel(Color color, int startX, int startY) {
         return findPixel(color, startX, startY, 1920, 1080);
@@ -98,5 +110,10 @@ public class ScreenControllerRobot {
         }
 
         return null;
+    }
+
+    @Override
+    public BufferedImage takeScreenshot() {
+        return robot.createScreenCapture(new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
     }
 }
