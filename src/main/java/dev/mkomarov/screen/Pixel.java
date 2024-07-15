@@ -31,18 +31,6 @@ public class Pixel {
         return color;
     }
 
-    public int getRed() {
-        return color.getRed();
-    }
-
-    public int getGreen() {
-        return color.getGreen();
-    }
-
-    public int getBlue() {
-        return color.getBlue();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
