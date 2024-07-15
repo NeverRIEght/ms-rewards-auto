@@ -56,10 +56,6 @@ public class ImageControllerWayland implements ImageController {
         return findPixelByColor(color, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
-    public Pixel findPixelByColor(Color color, int startX, int startY) {
-        return findPixelByColor(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-    }
-
     public Pixel findPixelByColor(Color color, Pixel startPixel, Pixel endPixel) {
         return findPixelByColor(color, startPixel.getX(), startPixel.getY(), endPixel.getX(), endPixel.getY());
     }
@@ -92,10 +88,6 @@ public class ImageControllerWayland implements ImageController {
 
     public Pixel findLastPixelByColor(Color color) {
         return findLastPixelByColor(color, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-    }
-
-    public Pixel findLastPixelByColor(Color color, int startX, int startY) {
-        return findLastPixelByColor(color, startX, startY, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
     public Pixel findLastPixelByColor(Color color, Pixel startPixel, Pixel endPixel) {

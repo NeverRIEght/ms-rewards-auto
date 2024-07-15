@@ -45,24 +45,6 @@ public class MouseControllerWayland implements MouseController {
     }
 
     @Override
-    public void mouseMove(Direction direction, int pixels) {
-        switch (direction) {
-            case UP:
-                executeCommand("ydotool mousemove_relative -- -0 " + (-pixels));
-                break;
-            case DOWN:
-                executeCommand("ydotool mousemove_relative -- -0 " + pixels);
-                break;
-            case LEFT:
-                executeCommand("ydotool mousemove_relative -- -" + pixels + " 0");
-                break;
-            case RIGHT:
-                executeCommand("ydotool mousemove_relative " + pixels + " 0");
-                break;
-        }
-    }
-
-    @Override
     public void resetMousePosition() {
         // Storing cursor inside Waydroid window while session is active = system crash
         mouseMove(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -77,11 +59,6 @@ public class MouseControllerWayland implements MouseController {
             throw new RuntimeException(e);
         }
         executeCommand("ydotool click 0x80", true, true);
-    }
-
-    @Override
-    public void mouseDoubleClick() {
-        executeCommand("ydotool click --repeat=2 1", true, true);
     }
 
     @Override

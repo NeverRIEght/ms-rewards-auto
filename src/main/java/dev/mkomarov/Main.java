@@ -1,27 +1,20 @@
 package dev.mkomarov;
 
 import dev.mkomarov.browser.BrowserController;
-import dev.mkomarov.browser.FirefoxController;
 import dev.mkomarov.keyboard.KeyboardController;
-import dev.mkomarov.keyboard.KeyboardControllerWayland;
 import dev.mkomarov.mouse.Direction;
 import dev.mkomarov.mouse.MouseController;
-import dev.mkomarov.mouse.MouseControllerWayland;
 import dev.mkomarov.phone.PhoneController;
-import dev.mkomarov.phone.WaydroidController;
 import dev.mkomarov.screen.Color;
 import dev.mkomarov.screen.Pixel;
 import dev.mkomarov.screen.ScreenController;
-import dev.mkomarov.screen.ScreenControllerWayland;
 import dev.mkomarov.search.SearchController;
-import dev.mkomarov.search.SearchControllerImpl;
 import dev.mkomarov.terminal.TerminalController;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -39,12 +32,12 @@ public class Main {
 
     public static final String ROOT_PASSWORD = "farout";
 
-    public static final BrowserController browserController = new FirefoxController();
-    public static final KeyboardController keyboardController = new KeyboardControllerWayland();
-    public static final MouseController mouseController = new MouseControllerWayland();
-    public static final ScreenController screenController = new ScreenControllerWayland();
-    public static final PhoneController phoneController = new WaydroidController();
-    public static final SearchController searchController = new SearchControllerImpl();
+    public static final BrowserController browserController = BrowserController.getInstance();
+    public static final KeyboardController keyboardController = KeyboardController.getInstance();
+    public static final MouseController mouseController = MouseController.getInstance();
+    public static final ScreenController screenController = ScreenController.getInstance();
+    public static final PhoneController phoneController = PhoneController.getInstance();
+    public static final SearchController searchController = SearchController.getInstance();
 
     public static void main(String[] args) throws InterruptedException {
         Thread daemon = TerminalController.startYdotoolDaemon();

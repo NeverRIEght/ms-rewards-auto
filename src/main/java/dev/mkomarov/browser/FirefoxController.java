@@ -20,7 +20,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 public class FirefoxController implements BrowserController {
-    public static final String LAUNCH_FIREFOX_COMMAND;
+    private static final String LAUNCH_FIREFOX_COMMAND;
     private static final String OS = System.getProperty("os.name").toLowerCase();
     private static final KeyboardController keyboardController = new KeyboardControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
@@ -113,7 +113,7 @@ public class FirefoxController implements BrowserController {
 
             Thread.sleep(1000);
 
-            Pixel pixelFound = imageController.findPixelByColor(SEARCH_SELECTION_COLOR, 0, 0);
+            Pixel pixelFound = imageController.findPixelByColor(SEARCH_SELECTION_COLOR);
 
             if (pixelFound == null) throw new RuntimeException("Pixel not found");
             return pixelFound;

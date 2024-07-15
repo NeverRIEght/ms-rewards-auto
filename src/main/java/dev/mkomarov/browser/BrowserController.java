@@ -5,19 +5,23 @@ import dev.mkomarov.screen.Pixel;
 import java.io.IOException;
 
 public interface BrowserController {
-    public void launchBrowser() throws IOException;
+    static BrowserController getInstance() {
+        return new FirefoxController();
+    }
 
-    public void closeBrowser() throws IOException;
+    void launchBrowser() throws IOException;
 
-    public void createNewTab();
+    void closeBrowser() throws IOException;
 
-    public void closeTab();
+    void createNewTab();
 
-    public void navigateTo(String url);
+    void closeTab();
 
-    public Pixel searchOnPage(String text);
+    void navigateTo(String url);
 
-    public void doDailySites();
+    Pixel searchOnPage(String text);
 
-    public void doDailySearches(int amount);
+    void doDailySites();
+
+    void doDailySearches(int amount);
 }
