@@ -1,7 +1,5 @@
 package dev.mkomarov.screen;
 
-import dev.mkomarov.screen.Color;
-
 import java.util.Objects;
 
 public class Pixel {
@@ -60,7 +58,7 @@ public class Pixel {
 
     @Override
     public String toString() {
-        return "Pixel{" +
+        return this.getClass().getSimpleName() + "{" +
                 "x=" + x +
                 ", y=" + y +
                 ", color=" + color +
