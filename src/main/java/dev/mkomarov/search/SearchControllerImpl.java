@@ -5,13 +5,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+
+import static dev.mkomarov.random.RandomProvider.getRandomInt;
 
 public class SearchControllerImpl implements SearchController {
     @Override
     public String getRandomWord() {
         List<String> words = getWordsList();
-        return words.get(new Random().nextInt(words.size()));
+        return words.get(getRandomInt(words.size()));
     }
 
     @Override
