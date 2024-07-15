@@ -10,6 +10,11 @@ public interface SearchController {
             + File.separator + "main"
             + File.separator + "resources"
             + File.separator + "words_alpha.txt";
+
+    default SearchController getInstance() {
+        return new SearchControllerImpl();
+    }
+
     String getRandomWord();
     List<String> getWordsList();
 }

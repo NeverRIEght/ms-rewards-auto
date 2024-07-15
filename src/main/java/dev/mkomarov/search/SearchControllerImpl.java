@@ -7,19 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static dev.mkomarov.robot.RobotController.WORDS_TXT_PATH;
-import static dev.mkomarov.robot.RobotController.getLinesFromTxt;
-
 public class SearchControllerImpl implements SearchController {
     @Override
     public String getRandomWord() {
-        List<String> words = getLinesFromTxt(WORDS_TXT_PATH);
+        List<String> words = getWordsList();
         return words.get(new Random().nextInt(words.size()));
     }
 
     @Override
     public List<String> getWordsList() {
         List<String> words = new ArrayList<>();
+
         BufferedReader reader;
         try {
             reader = new BufferedReader(new FileReader(WORDS_TXT_PATH));
@@ -32,7 +30,7 @@ public class SearchControllerImpl implements SearchController {
 
             reader.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error reading file: " + WORDS_TXT_PATH, e);
         }
 
         return words;
