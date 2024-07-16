@@ -171,8 +171,8 @@ public class WaydroidController implements PhoneController {
             doDailySearches(screenCenter, 20);
             Thread.sleep(2000);
 
-            collectDailyBonus();
-            Thread.sleep(2000);
+//            collectDailyBonus();
+//            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -213,22 +213,18 @@ public class WaydroidController implements PhoneController {
         Random random = RandomProvider.getRandom();
         try {
             Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
-            mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
-            Thread.sleep(500);
-            mouseController.mouseClick();
-            Thread.sleep(1500);
-            for (int i = 0; i < 20; i++) {
-                String currentWord = searchController.getRandomWord();
+            for (int i = 0; i < 2; i++) {
                 Thread.sleep(random.nextInt(1000, 2000));
+                mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
+                Thread.sleep(500);
+                mouseController.mouseClick();
+                Thread.sleep(1500);
+                String currentWord = searchController.getRandomWord();
                 keyboardController.print(currentWord, 150, 400);
                 Thread.sleep(random.nextInt(300, 500));
                 keyboardController.keyClick("enter");
                 Thread.sleep(random.nextInt(2000, 3000));
                 keyboardController.keyClick("esc");
-                mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
-                Thread.sleep(500);
-                mouseController.mouseClick();
-                Thread.sleep(1500);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
