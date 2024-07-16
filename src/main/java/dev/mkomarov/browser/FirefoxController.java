@@ -17,7 +17,6 @@ import dev.mkomarov.search.SearchControllerImpl;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class FirefoxController implements BrowserController {
     private static final String LAUNCH_FIREFOX_COMMAND;
@@ -130,21 +129,21 @@ public class FirefoxController implements BrowserController {
             // Open first link
             mouseController.mouseMove(dailySetCoords.getX() + 200, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            TimeUnit.MILLISECONDS.sleep(3000);
+            Thread.sleep(3000);
             closeTab();
 
             // Open second link
-            TimeUnit.MILLISECONDS.sleep(200);
+            Thread.sleep(200);
             mouseController.mouseMove(dailySetCoords.getX() + 1000, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            TimeUnit.MILLISECONDS.sleep(3000);
+            Thread.sleep(3000);
             closeTab();
 
             // Open third link
-            TimeUnit.MILLISECONDS.sleep(200);
+            Thread.sleep(200);
             mouseController.mouseMove(dailySetCoords.getX() + 1500, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            TimeUnit.MILLISECONDS.sleep(3000);
+            Thread.sleep(3000);
             closeTab();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -157,17 +156,17 @@ public class FirefoxController implements BrowserController {
         try {
             for (int i = 0; i < amount; i++) {
                 String currentWord = searchController.getRandomWord();
-                TimeUnit.MILLISECONDS.sleep(random.nextInt(1000, 2000));
+                Thread.sleep(random.nextInt(1000, 2000));
                 createNewTab();
 
-                TimeUnit.MILLISECONDS.sleep(200);
+                Thread.sleep(200);
                 navigateTo("bing.com");
 
-                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
-                keyboardController.print(currentWord, 450, 600);
-                TimeUnit.MILLISECONDS.sleep(random.nextInt(300, 500));
+                Thread.sleep(random.nextInt(300, 500));
+                keyboardController.print(currentWord, 100, 300);
+                Thread.sleep(random.nextInt(300, 500));
                 keyboardController.keyClick("enter");
-                TimeUnit.MILLISECONDS.sleep(random.nextInt(2000, 3000));
+                Thread.sleep(random.nextInt(2000, 3000));
                 closeTab();
             }
         } catch (InterruptedException e) {
