@@ -27,13 +27,15 @@ public class WaydroidController implements PhoneController {
     private static final ScreenController screenController = new ScreenControllerWayland();
     private static final ImageController imageController = new ImageControllerWayland();
     private static final MouseController mouseController = new MouseControllerWayland();
-    public static final String BING_APP_PACKAGE_NAME = "com.microsoft.bing";
-    public static final int WAYDROID_WINDOW_WIDTH = 720;
+    private static final String BING_APP_PACKAGE_NAME = "com.microsoft.bing";
+    private static final int WAYDROID_WINDOW_WIDTH = 720;
     private Thread sessionThread;
 
     private static final int SESSION_LAUNCH_ATTTEMPTS = 5;
     private static final int SESSION_STOP_ATTTEMPTS = 5;
     private static final int GET_STATUS_ATTTEMPTS = 5;
+
+    private Pixel[] waydroidWindow = new Pixel[2];
 
     public void setWaydroidWindowWidth(int width) {
         mouseController.resetMousePosition();
@@ -160,8 +162,8 @@ public class WaydroidController implements PhoneController {
             Color black = new Color(0, 0, 0);
             Pixel bottomRightCorner = imageController.findLastPixelByColor(black);
 
-            Pixel[] corners = imageController.findBorder(bottomRightCorner);
-            Pixel screenCenter = imageController.findCenterPixel(corners[0], corners[1]);
+            waydroidWindow = imageController.findBorder(bottomRightCorner);
+            Pixel screenCenter = imageController.findCenterPixel(waydroidWindow[0], waydroidWindow[1]);
 
             Thread.sleep(10000);
 
@@ -171,8 +173,8 @@ public class WaydroidController implements PhoneController {
             doDailySearches(screenCenter, 20);
             Thread.sleep(2000);
 
-//            collectDailyBonus();
-//            Thread.sleep(2000);
+            collectDailyBonus();
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -189,15 +191,41 @@ public class WaydroidController implements PhoneController {
             screenController.findImageAndClick(rewardsImage);
             Thread.sleep(10000);
 
+            //Day 1
+            mouseController.mouseMove(125, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
 
-            BufferedImage dailyBonusImage = imageController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/daily_bonus.png");
-            boolean isDailyBonusAvailable = screenController.findImageAndClick(dailyBonusImage);
+            //Day 2
+            mouseController.mouseMove(220, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
 
-            if (!isDailyBonusAvailable) {
-                System.out.println("Daily bonus is not available");
-            } else {
-                System.out.println("Daily bonus collected");
-            }
+            //Day 3
+            mouseController.mouseMove(315, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
+
+            //Day 4
+            mouseController.mouseMove(410, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
+
+            //Day 5
+            mouseController.mouseMove(505, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
+
+            //Day 6
+            mouseController.mouseMove(600, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
+
+            //Day 7
+            mouseController.mouseMove(695, 590);
+            Thread.sleep(300);
+            mouseController.mouseClick();
+
 
             Thread.sleep(2000);
 
@@ -213,7 +241,7 @@ public class WaydroidController implements PhoneController {
         Random random = RandomProvider.getRandom();
         try {
             Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 20; i++) {
                 Thread.sleep(random.nextInt(1000, 2000));
                 mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
                 Thread.sleep(500);
