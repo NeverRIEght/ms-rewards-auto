@@ -108,6 +108,9 @@ public class FirefoxController implements BrowserController {
             keyboardController.print("Daily");
             Thread.sleep(300);
 
+            keyboardController.keyClick("PAGEDOWN");
+            Thread.sleep(500);
+
             keyboardController.keyClick("enter");
 
             Thread.sleep(1000);
@@ -124,26 +127,31 @@ public class FirefoxController implements BrowserController {
     @Override
     public void doDailySites() {
         try {
+
             Pixel dailySetCoords = searchOnPage("Daily");
 
             // Open first link
             mouseController.mouseMove(dailySetCoords.getX() + 200, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             closeTab();
+
+            dailySetCoords = searchOnPage("Daily");
 
             // Open second link
             Thread.sleep(200);
             mouseController.mouseMove(dailySetCoords.getX() + 1000, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             closeTab();
+
+            dailySetCoords = searchOnPage("Daily");
 
             // Open third link
             Thread.sleep(200);
             mouseController.mouseMove(dailySetCoords.getX() + 1500, dailySetCoords.getY() + 150);
             mouseController.mouseClick();
-            Thread.sleep(3000);
+            Thread.sleep(5000);
             closeTab();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

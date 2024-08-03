@@ -49,7 +49,7 @@ public class WaydroidController implements PhoneController {
 
     @Override
     public void launchSession() {
-        setWaydroidWindowWidth(WAYDROID_WINDOW_WIDTH);
+//        setWaydroidWindowWidth(WAYDROID_WINDOW_WIDTH);
         sessionThread = new WaydroidSessionDaemonThread();
         sessionThread.setDaemon(true);
         sessionThread.start();
@@ -115,7 +115,7 @@ public class WaydroidController implements PhoneController {
                 attemptsCount++;
 
                 do {
-                    Thread.sleep(100);
+                    Thread.sleep(1000);
                 } while (statusString.isEmpty());
 
                 if (statusString.contains("STOPPED")) {
@@ -269,7 +269,7 @@ public class WaydroidController implements PhoneController {
 
         @Override
         public void run() {
-            process = executeCommand("waydroid session start");
+            process = executeCommand("waydroid session start", false, true);
             try {
                 while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(1000);
