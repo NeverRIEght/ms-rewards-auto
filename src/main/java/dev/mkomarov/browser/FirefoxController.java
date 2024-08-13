@@ -170,11 +170,13 @@ public class FirefoxController implements BrowserController {
                 Thread.sleep(200);
                 navigateTo("bing.com");
 
-                Thread.sleep(random.nextInt(300, 500));
+                Thread.sleep(random.nextInt(1000, 1500));
                 keyboardController.print(currentWord, 100, 300);
                 Thread.sleep(random.nextInt(300, 500));
                 keyboardController.keyClick("enter");
-                Thread.sleep(random.nextInt(2000, 3000));
+                Thread.sleep(random.nextInt(3000, 4000));
+                closeTab();
+                Thread.sleep(200);
                 closeTab();
             }
         } catch (InterruptedException e) {

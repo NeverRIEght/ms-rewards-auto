@@ -240,7 +240,9 @@ public class WaydroidController implements PhoneController {
     public void doDailySearches(Pixel screenCenter, int amount) {
         Random random = RandomProvider.getRandom();
         try {
-            Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
+//            Pixel searchBoxPosition = new Pixel(screenCenter.getX(), screenCenter.getY() - 150);
+            Pixel searchBoxPosition = imageController.findSubImageLocation(imageController.getImageFromPath("/home/mkomarov/Documents/Programming/Java/ms-rewards-auto/src/main/resources/search.png"), screenController.takeScreenshot());
+            System.out.println("Search box position: " + searchBoxPosition);
             for (int i = 0; i < 20; i++) {
                 Thread.sleep(random.nextInt(1000, 2000));
                 mouseController.mouseMove(searchBoxPosition.getX(), searchBoxPosition.getY());
