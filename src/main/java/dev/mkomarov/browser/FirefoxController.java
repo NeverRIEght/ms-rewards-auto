@@ -176,8 +176,6 @@ public class FirefoxController implements BrowserController {
                 keyboardController.keyClick("enter");
                 Thread.sleep(random.nextInt(3000, 4000));
                 closeTab();
-                Thread.sleep(200);
-                closeTab();
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
